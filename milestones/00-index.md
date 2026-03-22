@@ -1,8 +1,8 @@
-<h6 align="right">21/03/2026</h6>
+<h6 align="right">22/03/2026</h6>
 
-# Doc Tasks
+# Milestones
 
-O diretório de `doc-tasks` tem como objetivo armazenar o progresso
+O diretório de `milestones` tem como objetivo armazenar o progresso
 obtido quando é preenchido algum documento, formulário ou qualquer
 outra coisa necessária para a atividade no geral.
 
