@@ -19,6 +19,8 @@ referência o seguinte _script[^script]_ (seguimentação):
 Eles serão apresentados no **Relatório Final de Atividades
 Extensionistas** (específico para cada curso).
 
+<h6 align="right">25/03/2026</h6>
+
 ### Informações de planejamento
 
 Em seguida, são passadas algumas questões referentes ao planejamento
@@ -43,12 +45,12 @@ do projeto. Aqui constam elas (já preenchidas):
   - outros (cursos / fontes de terceiros):
     - Kotlin[^kotlin] para backend
     - Docker e _conteinerização[^conteinerização]_
-- [ ] **programa de extensão:**
-- [x] **finalidade e motivação:** reportar, monitorar, ler
-  (geograficamente) e cruzar dados referentes ao descarte de lixo
-  (ex: qualidade de vida, número de reports, distância dos focos de
-  descarte, etc...) para contruibuir com a compreensão e combate de
-  descarte irregular
+- [x] **programa de extensão:** software para _report_, monitoramento
+  e leitura de informações referentes ao descarte irregular de lixo
+- [x] **finalidade e motivação:** cruzar dados referentes ao descarte
+  de lixo (focos, padrões, como isso impacta na comunidade local,
+  etc...) para contruibuir com a compreensão e combate de descarte
+  irregular
 - [x] **competências:**
   - estrutura de dados
   - programação orientada a objetos
@@ -60,7 +62,12 @@ do projeto. Aqui constam elas (já preenchidas):
   queda na saúde e bem estar (ODS 3). Compreender os padrões e a
   motivação do descarte possibilitaria tomar medidas para a
   mitigação e contribuir com a comunidade local e global.
-- [ ] **soft skills:**
+- [x] **soft skills:**
+  - empatia e consciência ambiental
+  - pensamento crítico
+  - trabalho em equipe
+  - resolução de problemas
+  - organização e gestão de projetos
 
 [^script]: roteiro a ser seguido
 [^kotlin]: linguagem de programação com as mesmas propriedades do
