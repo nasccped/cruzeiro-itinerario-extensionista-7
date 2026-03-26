@@ -69,6 +69,28 @@ do projeto. Aqui constam elas (já preenchidas):
   - resolução de problemas
   - organização e gestão de projetos
 
+## Informações paralelas ao desenvolvimento
+
+Algumas informações devem ser providas **durante** o desenvolvimento
+do projeto. Abaixo constam elas: _(sujeitas a mudança)_
+
+- [x] **objetivos da aprendizagem:** aperfeiçoamento das práticas e 
+  implementações de tecnologias modernas para resolução de problemas
+  reais. Conceitos já anteriormente abordados (em outros módulos) e
+  seu reaproveitamente na implementação de projetos realistas. Estudo
+  de caso e ação conjunta com comunidade/entidades de interesse
+  social
+- [x] **conteúdos:**
+  - estrutura de dados
+  - programação orientada a objetos
+  - pensamento computacional
+  - análise de projeto de sistemas
+- [x] **indicações bibliográficas:**
+  - _[Uma Introdução Sucinta à Teoria dos Grafos](https://www.ime.usp.br/~pf/teoriadosgrafos/) - Paulo Feofiloff, Yoshiharu Kohayakawa e Yoshiko Wakabayashi - 2004_
+  - _[Fundamentos da arquitetura de software: uma abordagem de engenharia](https://www.amazon.com.br/Fundamentos-Arquitetura-Software-Abordagem-Engenharia/dp/8550819859) - Mark Richards - 2024_
+- [x] **referências bibliográficas:**
+  - _[Fundamentos da arquitetura de software: uma abordagem de engenharia](https://www.amazon.com.br/Fundamentos-Arquitetura-Software-Abordagem-Engenharia/dp/8550819859) - Mark Richards - 2024_
+
 [^script]: roteiro a ser seguido
 [^kotlin]: linguagem de programação com as mesmas propriedades do
   Java mas  conceitos/implementação moderna
