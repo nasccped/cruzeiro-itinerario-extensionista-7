@@ -91,6 +91,34 @@ do projeto. Abaixo constam elas: _(sujeitas a mudança)_
 - [x] **referências bibliográficas:**
   - _[Fundamentos da arquitetura de software: uma abordagem de engenharia](https://www.amazon.com.br/Fundamentos-Arquitetura-Software-Abordagem-Engenharia/dp/8550819859) - Mark Richards - 2024_
 
+<h6 align="right">28/03/2026</h6>
+
+## Planejamento
+
+Informações de planejamento para o início, desenvolvimento e
+conclusão do projeto:
+
+- [ ] **instituição/local da ação:** _(indefinido)_
+- [x] **problema a ser solucionado/minimizado:** descarte irregular
+  de lixo
+  - o lixo, quando descartado de maneira inadequada, implica
+  diretamente na:
+    - temperatura global (ODS 13)
+    - qualidade de vida (ODS 3)
+- [x] **ideação e prototipação:** casos de uso operacionais e
+  técnicos atendidos pelo projeto a fim de sanar os critérios
+  estabelecidos pela extensão e/ou projeto
+  - mapeamento de descarte irregular de lixo através de um ambiente
+    geográfico
+  - monitoramento do local de descarte (data de report, tempo até
+    coleta, etc...)
+  - levantamento de dados para cruzamento com outras fontes:
+    - quais são as áreas com maior descarte?
+    - isso implica na qualidade de vida da população local? De que
+      forma?
+    - o descarte mostra algum padrão de relacionamento com outros
+      dados (ex: surtos de dengue, leptospirose, etc...)?
+
 [^script]: roteiro a ser seguido
 [^kotlin]: linguagem de programação com as mesmas propriedades do
   Java mas  conceitos/implementação moderna
