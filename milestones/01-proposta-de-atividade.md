@@ -65,9 +65,9 @@ trabalhados a partir de um dado curso.
 
 O tema escolhido para o prosseguimento da atividade foi:
 
-| Tema                              | Projeto                                                                                    |
-| :-------------------------------: | :----------------------------------------------------------------------------------------: |
-| Mitigação das Mudanças Climáticas | software para _report[^report]_, monitoramento e levantamento de dados de descarte de lixo |
+| Tema                              | Projeto                                                                                                 |
+| :-------------------------------: | :-----------------------------------------------------------------------------------------------------: |
+| Mitigação das Mudanças Climáticas | protótipo de software para _report[^report]_, monitoramento e levantamento de dados de descarte de lixo |
 
 ### Quais (e como os) ODSs são trabalhados?
 
