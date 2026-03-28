@@ -19,7 +19,7 @@ referência o seguinte _script[^script]_ (seguimentação):
 Eles serão apresentados no **Relatório Final de Atividades
 Extensionistas** (específico para cada curso).
 
-<h6 align="right">25/03/2026</h6>
+<h6 align="right">28/03/2026</h6>
 
 ### Informações de planejamento
 
@@ -45,8 +45,9 @@ do projeto. Aqui constam elas (já preenchidas):
   - outros (cursos / fontes de terceiros):
     - Kotlin[^kotlin] para backend
     - Docker e _conteinerização[^conteinerização]_
-- [x] **programa de extensão:** software para _report_, monitoramento
-  e leitura de informações referentes ao descarte irregular de lixo
+- [x] **programa de extensão: _protótipo_** de software para _report_,
+  monitoramento e leitura de informações referentes ao descarte
+  irregular de lixo
 - [x] **finalidade e motivação:** cruzar dados referentes ao descarte
   de lixo (focos, padrões, como isso impacta na comunidade local,
   etc...) para contruibuir com a compreensão e combate de descarte
@@ -90,8 +91,6 @@ do projeto. Abaixo constam elas: _(sujeitas a mudança)_
   - _[Fundamentos da arquitetura de software: uma abordagem de engenharia](https://www.amazon.com.br/Fundamentos-Arquitetura-Software-Abordagem-Engenharia/dp/8550819859) - Mark Richards - 2024_
 - [x] **referências bibliográficas:**
   - _[Fundamentos da arquitetura de software: uma abordagem de engenharia](https://www.amazon.com.br/Fundamentos-Arquitetura-Software-Abordagem-Engenharia/dp/8550819859) - Mark Richards - 2024_
-
-<h6 align="right">28/03/2026</h6>
 
 ## Planejamento
 
