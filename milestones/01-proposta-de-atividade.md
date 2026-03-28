@@ -1,10 +1,11 @@
-<h6 align="right">22/03/2026</h6>
+<h6 align="right">28/03/2026</h6>
 
 # Proposta de atividade
 
 As informações aqui dispostas seguem as orientações passadas no
 arquivo `proposta de atividade 26.1` localizado em
-`Conteúdo > Projeto de Extensão`.
+`Conteúdo > Projeto de Extensão` (também disponível por meio
+[deste link](https://github.com/nasccped/cruzeiro-itinerario-extensionista-7/blob/main/third-docs/proposta%20de%20atividade%2026.1.pdf)).
 
 ## Contextualização
 

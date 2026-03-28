@@ -1,10 +1,11 @@
-<h6 align="right">24/03/2026</h6>
+<h6 align="right">28/03/2026</h6>
 
 # Manual de extensão
 
 O conteúdo aqui disposto refere-se as informações passadas no arquivo
 pdf `manual de extensão` que está localizado em
-`Conteúdo > Projeto do Extensão`.
+`Conteúdo > Projeto do Extensão` (também disponível por meio
+[deste link](https://github.com/nasccped/cruzeiro-itinerario-extensionista-7/blob/main/third-docs/manual%20de%20extens%C3%A3o.pdf)).
 
 ## Informações iniciais
 
@@ -18,8 +19,6 @@ referência o seguinte _script[^script]_ (seguimentação):
 
 Eles serão apresentados no **Relatório Final de Atividades
 Extensionistas** (específico para cada curso).
-
-<h6 align="right">28/03/2026</h6>
 
 ### Informações de planejamento
 
