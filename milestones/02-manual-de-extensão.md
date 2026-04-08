@@ -69,6 +69,8 @@ do projeto. Aqui constam elas (já preenchidas):
   - resolução de problemas
   - organização e gestão de projetos
 
+<h6 align="right">07/04/2026</h6>
+
 ## Informações paralelas ao desenvolvimento
 
 Algumas informações devem ser providas **durante** o desenvolvimento
@@ -90,6 +92,7 @@ do projeto. Abaixo constam elas: _(sujeitas a mudança)_
   - _[Fundamentos da arquitetura de software: uma abordagem de engenharia](https://www.amazon.com.br/Fundamentos-Arquitetura-Software-Abordagem-Engenharia/dp/8550819859) - Mark Richards - 2024_
 - [x] **referências bibliográficas:**
   - _[Fundamentos da arquitetura de software: uma abordagem de engenharia](https://www.amazon.com.br/Fundamentos-Arquitetura-Software-Abordagem-Engenharia/dp/8550819859) - Mark Richards - 2024_
+  - _[descarte de lixo](https://blog.brkambiental.com.br/descarte-de-lixo-2/) - Blog | brkambiental  - 2021_
 
 ## Planejamento
 
