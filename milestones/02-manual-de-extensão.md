@@ -93,6 +93,7 @@ do projeto. Abaixo constam elas: _(sujeitas a mudança)_
 - [x] **referências bibliográficas:**
   - _[Fundamentos da arquitetura de software: uma abordagem de engenharia](https://www.amazon.com.br/Fundamentos-Arquitetura-Software-Abordagem-Engenharia/dp/8550819859) - Mark Richards - 2024_
   - _[descarte de lixo](https://blog.brkambiental.com.br/descarte-de-lixo-2/) - Blog | brkambiental  - 2021_
+  - _[revista extensão](https://revista.unitins.br/index.php/extensao/article/view/9180) - Kaline Ribeiro Figueiredo - 2023_
 
 ## Planejamento
 
