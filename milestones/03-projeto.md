@@ -20,9 +20,11 @@ O descarte irregular de lixo contribui com a:
 - alagamentos (em casos de chuva)
 - queda na qualidade de vida
 
+<h6 align="right">08/04/2026</h6>
+
 ### Fontes
 
-Fontes fundamentais para a escolha das [#motivações](#motivacoes).
+Fontes fundamentais para a escolha das [motivações](#motivacoes).
 
 #### Da página [brkambiental](https://blog.brkambiental.com.br/descarte-de-lixo-2/):
 
