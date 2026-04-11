@@ -34,6 +34,8 @@ referir aos termos específicos do projeto):
 - `report`: ato resultante ao de reportar um `pdli` _(exemplo: ele
   reportou o descarte `->` ele realizou o report)_
 
+<h6 align="right">10/04/2026</h6>
+
 ## Projeto em questão
 
 > [!TIP]
@@ -63,10 +65,9 @@ Para o projeto trabalhado, aplicam-se os seguintes `rf`s e `rnf`s:
 4. os usuários devem ser capazes de consultar informações referentes
    a um `pdli` em aberto ou já encerrado
 
-- o `pdli` deve ser indexado a partir de uma informações
-  determinísticas (quando usadas como entrada sempre resultam no
-  mesmo valor de saída), por exemplo **CEP**[^CEP] ou longitude e
-  latitude.
+- o `pdli` deve ser indexado de maneira
+  determinística[^deterministico], por exemplo **CEP**[^CEP] ou
+  longitude e latitude, etc.
 
 > [!WARNING]
 >
@@ -80,6 +81,9 @@ Para o projeto trabalhado, aplicam-se os seguintes `rf`s e `rnf`s:
   usuário acessou, ingressou ou conectou-se a um sistema digital,
   site ou programa de computador utilizando credenciais de
   autenticação, como nome de usuário e senha.
+[^deterministico]: Algo determinístico é quando, dadas as mesmas
+  condições inicias (dados de entrada), produzirá sempre o mesmo
+  resultado.
 [^CEP]: O CEP (Código de Endereçamento Postal) é um conjunto numérico
   constituído de oito algarismos, que orienta e acelera o
   encaminhamento, o tratamento e a distribuição de objetos de
