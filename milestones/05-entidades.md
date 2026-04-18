@@ -59,3 +59,43 @@ A(s) entidade(s):
   - `id`: **int como chave primária**, identifica esta categoria como
     única
   - `name`: **string não nula e único**, usada como nome da categoria
+
+### Reports, fichas e status
+
+<div align="center"> <img src="../images/diag-reports.svg"> </div>
+
+A(s) entidade(s):
+
+- `reports`: reports efetuados no sistema. São constituídos por
+  - `id`: **int como chave primária**, identifica este report como
+    único
+  - `reportOwner`: **int estrangeiro (refere-se à `users.id`) não
+    nulo**, refere-se ao usuário que realizou este report
+  - `openedAt`: **timestamp não nulo**, refere-se quando esse report
+    foi feito
+  - `placeRecord`: **int estrangeiro (refere-se à `placeRecord.id`)
+    não nulo**, refere-se à ficha do local ao qual o report foi feito
+  - `reportStatus`: **int estrangeiro (refere-se à
+    `reportStatuses.id`) não nulo**, refere-se ao status deste report
+- `placeRecords`: fichas que são abertas referentes ao locais
+  reportados. São constituídas por
+  - `id`: **int como chave primária**, identifica esta ficha como
+    única
+  - `openedAt`: **timestamp não nulo**, refere-se quando a ficha foi
+    aberta
+  - `status`: **int estrangeiro (refere-se à `recordStatuses.id`) não
+    nulo**, refere-se ao status da ficha
+  - `place`: **int estrangeiro (refere-se à `places.id`) não nulo**,
+    refere-se ao local que a ficha representa
+- `recordStatuses`: possíveis status para as fichas. São constituídos
+  por
+  - `id`: **int como chave primária**, identifica este status como
+    único
+  - `statusName`: **string não nula e única**, refere-se ao nome do
+    status
+- `reportStatuses`: possíveis status para os reports. São
+  constituídos por
+  - `id`: **int como chave primária**, identifica este status como
+    único
+  - `statusName`: **string não nula e única**, refere-se ao nome do
+    status
