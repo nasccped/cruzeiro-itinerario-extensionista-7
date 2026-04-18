@@ -99,3 +99,46 @@ A(s) entidade(s):
     único
   - `statusName`: **string não nula e única**, refere-se ao nome do
     status
+
+### Lugares, bairros, cidades, estados e regiões
+
+<div align="center"> <img src="../images/diag-places.svg"> </div>
+
+A(s) entidade(s):
+
+- `places`: lugares registrados no sistema. São constituídos por
+  - `id`: **int como chave primária**, usado para identificar este
+    lugar como único
+  - `CEP`: **string única e não nula**, usada para identifar o CEP
+    do local (evitar usar CEP como chave primária)
+  - `street`: **string não nula**, usada para representar o nome da
+    rua
+  - `neighborhood`: **int estrangeiro (refere-se à `neighborhood.id`)
+    não nulo**, usado para representar o bairro ao qual o local
+    pertence
+- `neighborhood`: bairros registrados no sistema. São constituídos
+  por
+  - `id`: **int como chave primária**, representa este bairro como
+    único
+  - `nbhName`: **string não nula**, representa o nome do bairro
+  - `city`: **int estrangeiro (refere-se à `cities.id`) não nulo**,
+    usado para representar qual cidade o bairro pertence
+- `cities`: cidades registradas no sistema. São constituídas por
+  - `id`: **int como chave primária**, usada para identificar a
+    cidade como única
+  - `cityName`: **string não nula**, representa o nome da cidade
+  - `estate`: **char(2) estrangeiro (refere-se à `estates.ufId`) não
+    nulo**, representa o estado ao qual a cidade pertence
+- `estates`: estados registrados no sistema. São constituídos por
+  - `ufId`: **char(2) como chave primária**, usado para identificar o
+    estado como único no sistema
+  - `estateName`: **string não nula e única**, usada para representar
+    o nome do estado
+  - `region`: **int estrangeiro (refere-se à `region.id`) não nulo**,
+    usado para representar a região na qual o estado pertence
+- `region`: regiões (do Brasil) registradas no sistema. São
+  constituídas por
+  - `id`: **int como chave primária**, usado para identificar a
+    região como única
+  - `regionName`: **string não nula e única**, usada para identificar
+    o nome da região
