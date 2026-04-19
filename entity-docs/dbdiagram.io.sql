@@ -46,7 +46,7 @@ Table records {
   pkId                 int       [pk, increment]
   openedAt             timestamp [not null]
   fkStatus             int       [not null]
-  fkLatestStatusChange int       [not null]
+  fkLatestStatusChange int       [unique]
   fkPlace              int       [not null]
 }
 
