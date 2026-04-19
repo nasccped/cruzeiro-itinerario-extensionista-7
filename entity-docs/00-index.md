@@ -8,24 +8,17 @@ _"hardcoded"_[^hardcoded] inseridos no projeto, mas sim uma
 representação intermediária e/ou informações utilizadas para chegar
 ao produto final.
 
-## Arquivos `diag`
+<h6 align="right">19/04/2026</h6>
 
-Arquivos com prefixo `diag` referem-se ao diagrama das entidades.
+## Arquivos de diagrama
 
-Quando montamos o `schema` do banco de dados, é preferível que haja
-uma representação intermediária (e/ou visual) entre o conceito dos
-dados e sua implementação em servidor.
+O arquivo dbdiagram.io representa o script interpretado pelo site
+[dbdiagram.io](https://dbdiagram.io/home). Ele foi utilizado para
+montar a referência dos relacionamentos dentro do banco de dados.
 
-Fazemos isso por meio de diagramas que representam visualmente as
-entidades e seus relacionamentos.
-
-Todos os arquivos começados com `diag` não são de fato SQL, na
-verdade são arquivos em uma linguagem interpretada que é utilizada
-pelo site [dbdiagram.io](https://dbdiagram.io/home).
-
-Esse site foi usado para montar os diagramas do banco de dados
-referente ao projeto em questão. _(você pode acompanhar os diagramas
-na página [entidades](../milestones/05-entidades.md))_
+> [!TIP]
+>
+> Você pode acompanhar os diagramas na página [entidades](../milestones/05-entidades.md).
 
 [^entidades]: Entidade refere-se a um objeto ou conceito que possui
   identidade única e é reconhecido dentro de um sistema,
