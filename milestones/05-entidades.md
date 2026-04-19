@@ -24,121 +24,224 @@ Por termos ciência das entidades, sabemos exatamente:
 - Quais dados devem ser avaliados (antes de/durante) sua inserção na
   tabela
 
-<h6 align="right">18/04/2026</h6>
+<h6 align="right">19/04/2026</h6>
 
 ## Estrutura das entidades
 
 A seguir temos a estrura das entidades usadas no projeto **(até
 então)**:
 
-> [!NOTE]
->
-> Para evitar ambiguidade de linguagem, os termos serão tratados em
-> inglês, já que essa é uma restrição não só da maioria dos bancos de
-> dados mas também de boa parte das tecnologias utilizadas no
-> projeto.
+<img src="../images/diagram.svg">
+<div align="center">
+  <i>
+    Representação das entidades e seus relacionamentos (diagrama).
+    Consider abrir a imagem
+    <a href="../images/diagram.svg">
+      svg original
+    </a>.
+  </i>
+</div>
 
-### Usuários e categoria de usuários
+### `users` (usuários)
 
-<div align="center"> <img src="../images/diag-users.svg"> </div>
+A tabela de `users` tem como finalidade armazenar um usuário
+reconhecido pelo sistema. Essa tabela é constituída pelas colunas:
 
-A(s) entidade(s):
+- `pkId`: campo do tipo `int`, usado como chave primária para
+  identificar este usuário como único
+- `userName`: campo do tipo `varchar(50)` não nulo e único, usado
+  para armazenar o nome deste usuário
+- `userMail`: campo do tipo `varchar(50)` não nulo e único, usado
+  para armazenar o _e-mail_ deste usuário
+- `fkCategory`: campo do tipo `int` não nulo, usado como chave
+  estrangeira para associar o usuário com uma
+  [categoria](#usercategories-categorias-de-usuário)
+- `fkLatestCategoryChange`: campo do tipo `int` único, usado como
+  chave estrangeira para associar o usuário com a última
+  [troca de categoria](#usercategorychanges-trocas-de-categoria-para-usuário)
 
-- `users`: usuários registrados no sistema. São constituídos por
-  - `id`: **int como chave primária**, identifica este usuário como
-    único
-  - `username`: **string não nula e única**, usada como nome de
-    usuário
-  - `email`: **string não nula e única**, usada como email de usuário
-  - `category`: **int não nulo como chave estrangeira (refere-se à
-    `userCategories.id`)**, identifica a categoria do usuário
-  - `latestReport`: **int estrangeiro (refere-se à `reports.id`) e
-    único**, identifica o último report feito por este usuário
-- `userCategories`: categorias de usuário registradas no sistema. São
-  contituídas por
-  - `id`: **int como chave primária**, identifica esta categoria como
-    única
-  - `name`: **string não nula e único**, usada como nome da categoria
+### `userCategories` (categorias de usuário)
 
-### Reports, fichas e status
+A tabela de `userCategories` tem como finalidade armazenar as
+possíveis categorias para os [usuários](#users-usuários). Essa tabela
+é constituída pelas colunas:
 
-<div align="center"> <img src="../images/diag-reports.svg"> </div>
+- `pkId`: campo do tipo `int`, usado como chave primária para
+  identificar esta categoria como única
+- `categoryName`: campo do tipo `varchar(50)` não nulo e único, usado
+  para expressar o nome da categoria em questão
 
-A(s) entidade(s):
+### `userCategoryChanges` (trocas de categoria para usuário)
 
-- `reports`: reports efetuados no sistema. São constituídos por
-  - `id`: **int como chave primária**, identifica este report como
-    único
-  - `reportOwner`: **int estrangeiro (refere-se à `users.id`) não
-    nulo**, refere-se ao usuário que realizou este report
-  - `openedAt`: **timestamp não nulo**, refere-se quando esse report
-    foi feito
-  - `placeRecord`: **int estrangeiro (refere-se à `placeRecord.id`)
-    não nulo**, refere-se à ficha do local ao qual o report foi feito
-  - `reportStatus`: **int estrangeiro (refere-se à
-    `reportStatuses.id`) não nulo**, refere-se ao status deste report
-- `placeRecords`: fichas que são abertas referentes ao locais
-  reportados. São constituídas por
-  - `id`: **int como chave primária**, identifica esta ficha como
-    única
-  - `openedAt`: **timestamp não nulo**, refere-se quando a ficha foi
-    aberta
-  - `status`: **int estrangeiro (refere-se à `recordStatuses.id`) não
-    nulo**, refere-se ao status da ficha
-  - `place`: **int estrangeiro (refere-se à `places.id`) não nulo**,
-    refere-se ao local que a ficha representa
-- `recordStatuses`: possíveis status para as fichas. São constituídos
-  por
-  - `id`: **int como chave primária**, identifica este status como
-    único
-  - `statusName`: **string não nula e única**, refere-se ao nome do
-    status
-- `reportStatuses`: possíveis status para os reports. São
-  constituídos por
-  - `id`: **int como chave primária**, identifica este status como
-    único
-  - `statusName`: **string não nula e única**, refere-se ao nome do
-    status
+A tabela de `userCategoryChanges` tem como finalidade armazenar as
+trocas de [categorias](#usercategories-categorias-de-usuário) feitas
+pelos [usuários](#users-usuários). Essa tabela é constituída pelas
+colunas:
 
-### Lugares, bairros, cidades, estados e regiões
+- `pkId`: campo do tipo `int`, usado como chave primária para
+  identificar esta troca como única
+- `fkFrom`: campo do tipo `int` não nulo, usado como chave
+  estrangeira para relacionar esta troca com a
+  [categoria de origem](#usercategories-categorias-de-usuário)
+- `fkTo`: campo do tipo `int` não nulo, usado como chave estrangeira
+  para relacionar esta troca com a
+  [categoria de destino](#usercategories-categorias-de-usuário)
+- `atTimeStamp`: campo do tipo `timestamp`, usado para expressar
+  quando a troca foi feita
 
-<div align="center"> <img src="../images/diag-places.svg"> </div>
+### `reports`
 
-A(s) entidade(s):
+A tabela `reports` tem como finalidade armazenar os reports
+registrados em sistema. Essa tabela é constituída pelas colunas:
 
-- `places`: lugares registrados no sistema. São constituídos por
-  - `id`: **int como chave primária**, usado para identificar este
-    lugar como único
-  - `CEP`: **string única e não nula**, usada para identifar o CEP
-    do local (evitar usar CEP como chave primária)
-  - `street`: **string não nula**, usada para representar o nome da
-    rua
-  - `neighborhood`: **int estrangeiro (refere-se à `neighborhood.id`)
-    não nulo**, usado para representar o bairro ao qual o local
-    pertence
-- `neighborhood`: bairros registrados no sistema. São constituídos
-  por
-  - `id`: **int como chave primária**, representa este bairro como
-    único
-  - `nbhName`: **string não nula**, representa o nome do bairro
-  - `city`: **int estrangeiro (refere-se à `cities.id`) não nulo**,
-    usado para representar qual cidade o bairro pertence
-- `cities`: cidades registradas no sistema. São constituídas por
-  - `id`: **int como chave primária**, usada para identificar a
-    cidade como única
-  - `cityName`: **string não nula**, representa o nome da cidade
-  - `estate`: **char(2) estrangeiro (refere-se à `estates.ufId`) não
-    nulo**, representa o estado ao qual a cidade pertence
-- `estates`: estados registrados no sistema. São constituídos por
-  - `ufId`: **char(2) como chave primária**, usado para identificar o
-    estado como único no sistema
-  - `estateName`: **string não nula e única**, usada para representar
-    o nome do estado
-  - `region`: **int estrangeiro (refere-se à `region.id`) não nulo**,
-    usado para representar a região na qual o estado pertence
-- `region`: regiões (do Brasil) registradas no sistema. São
-  constituídas por
-  - `id`: **int como chave primária**, usado para identificar a
-    região como única
-  - `regionName`: **string não nula e única**, usada para identificar
-    o nome da região
+- `pkId`: campo do tipo `int`, usado como chave primária para
+  identificar este report como único
+- `fkUserOwner`: campo do tipo `int` não nulo, usado para associar
+  este report com um [usuário](#users-usuários)
+- `openedAt`: campo do tipo `timestamp` não nulo, usado para
+  expressar quando este report foi feito
+- `fkRecord`: campo do tipo `int` não nulo, usado para associar este
+  report com uma [ficha](#records-fichas-de-descarte)
+- `fkStatus`: campo do tipo `int` não nulo, usado para associar este
+  report com um [status](#reportstatuses-status-de-report)
+- `fkLatestStatusChange`: campo do tipo `int` não nulo e único, usado
+  para associar este report à uma
+  [troca de status](#reportstatuschanges-troca-de-status-de-report)
+
+### `reportStatuses` (status de report)
+
+A tabela `reportStatuses` tem como finalidade armazenar os possíveis
+status para os [reports](#reports). Essa tabela é
+constituída pelas colunas:
+
+- `pkId`: campo do tipo `int`, usado como chave primária para
+  identificar este status como único
+- `statusName`: campo do tipo `varchar(50)` não nulo e único, usado
+  para expressar o nome deste status
+
+### `reportStatusChanges` (troca de status de report)
+
+A tabela `reportStatusChanges` tem como finalidade armazenar as
+trocas de status para os [reports](#reports). Essa tabela
+é constituída pelas colunas:
+
+- `pkId`: campo do tipo `int`, usado como chave primária para
+  identificar esta troca como única
+- `fkFrom`: campo do tipo `int` não nulo, usado como chave
+  estrangeira para associar esta troca com um
+  [status de origem](#reportstatuses-status-de-report)
+- `fkTo`: campo do tipo `int` não nulo, usado como chave estrangeira
+  para associar esta troca com um
+  [status de destino](#reportstatuses-status-de-report)
+- `atTimeStamp`: campo do tipo `timestamp` não nulo, usado para
+  expressar quando a troca foi feita
+
+### `records` (fichas de descarte)
+
+A tabela `records` tem como finalidade armazenar as fichas de pontos
+de descarte. Essa tabela é constituída pelas colunas:
+
+- `pkId`: campo do tipo `int`, usado como chave primária para
+  identificar esta ficha como única
+- `openedAt`: campo do tipo `timestamp` não nulo, usado para expressar
+  quando a ficha foi aberta
+- `fkStatus`: campo do tipo `int` não nulo, usado como chave
+  estrangeira para associar a ficha com um
+  [status](#recordstatuses-status-de-ficha)
+- `fkLatestStatusChange`: campo do tipo `int`, usado como chave
+  estrangeira para associar a ficha à uma
+  [troca de status](#recordstatuschanges-troca-de-status-de-ficha)
+- `fkPlace`: campo do tipo `int`, usado como chave estrangeira para
+  associar a ficha à um
+  [local](#places-lugares-de-descarte-irregular)
+
+### `recordStatuses` (status de ficha)
+
+A tabela `recordStatuses` tem como finalidade armazenar os possíveis
+status para as [fichas de descarte](#records-fichas-de-descarte).
+Essa tabela é constituída pelas colunas:
+
+- `pkId`: campo do tipo `int`, usado como chave primária para
+  identificar este status como único
+- `statusName`: campo do tipo `varchar(50)` não nulo e único, usado
+  para expressar o nome do status
+
+### `recordStatusChanges` (troca de status de ficha)
+
+A tabela `recordStatusChanges` tem como finalidade armazenar as
+trocas de status feitas pelas
+[fichas de descarte](#records-fichas-de-descarte). Essa tabela é
+constituída pelas colunas:
+
+- `pkId`: campo do tipo `int`, usado como chave primária para
+  identificar esta troca como única
+- `fkFrom`: campo do tipo `int` não nulo, usado como chave
+  estrangeira para associar a troca com um
+  [status de origem](#recordstatuses-status-de-ficha)
+- `fkTo`: campo do tipo `int` não nulo, usado como chave estrangeira
+  para associar a troca com um
+  [status de destino](#recordstatuses-status-de-ficha)
+- `atTimeStamp`: campo do tipo `timestamp` não nulo, usado para
+  expressar quando a troca foi feita
+
+### `places` (lugares de descarte irregular)
+
+A tabela `places` tem como finalidade armazenar os lugares de
+descarte irregular registrados no sistema. Esta tabela é constituída
+pelas colunas:
+
+- `pkId`: campo do tipo `int`, usado como chave primária para
+  identificar o lugar como único
+- `CEP`: campo do tipo `char(9)` não nulo e único, usado para
+  expressar o _CEP_ do lugar
+- `streetName`: campo do tipo `varchar(35)` não nulo, usado para
+  expressar o nome da rua
+- `fkNeighborhood`: campo do tipo `int` não nulo, chave estrangeira
+  usada para associar o lugar à um [bairro](#neighborhoods-bairros)
+  registrado em sistema
+
+### `neighborhoods` (bairros)
+
+A tabela `neighborhoods` tem como finalidade armazenar os bairros
+registrados em sistema. Esta tabela é constituída pelas colunas:
+
+- `pkId`: campo do tipo `int`, usado como chave primária para
+  identificar este bairro como único
+- `nbhName`: campo do tipo `varchar(30)` não nulo, usado para
+  expressar o nome do bairro em questão
+- `fkCity`: campo do tipo `int` não nulo, chave estrangeira usada para
+  associar o bairro com um [município](#cities-municípios)
+
+### `cities` (municípios)
+
+A tabela `cities` tem como finalidade armazenar os municípios
+registrados em sistema. Esta tabela é constituída pelas colunas:
+
+- `pkId`: campo do tipo `int`, chave primária usada para identificar
+  este município como único
+- `cityName`: campo do tipo `varchar(50)` não nulo, usado para
+  expressar o nome do município
+- `fkState`: campo do tipo `char(2)` não nulo, chave estrangeira
+  usada para associar o município com um [estado](#states-estados)
+
+### `states` (estados)
+
+A tabela `estados` tem como finalidade armazenar os estados
+registrados em sistema. Esta tabela é constituída pelas colunas:
+
+- `pkUfId`: campo do tipo `char(2)`, chave primária (como _unidade
+  federativa_) usada para para identificar o estado como único
+- `stateName`: campo do tipo `varchar(50)` não nulo e único, usado
+  para expressar o nome do estado em questão
+- `fkRegion`: campo do tipo `int` não nulo, usado para associar o
+  estado à uma [região](#regions-regiões)
+
+### `regions` (regiões)
+
+A tabela `regions` tem como finalidade armazenar as regiões
+registradas em sistema. Esta tabela é constituída pelas colunas:
+
+- `pkId`: campo do tipo `int`, chave primária usada para identificar
+  esta região como única
+- `regionName`: campo do tipo `varchar(25)` não nulo e único, usado
+  para expressar o nome da região
