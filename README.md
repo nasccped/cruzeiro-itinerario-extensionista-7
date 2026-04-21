@@ -9,9 +9,5 @@ software - alinhado ao curso de Ciências Exatas e Tecnologia (Ciência
 da Computação, especificamente).
 
 Este texto em questão refere-se a página inicial do repositório. Mais
-informações podem ser obtidas através dos documentos contidos pelo
-diretório de [milestones](./milestones) assim como pelo
-[third-docs](./third-docs)[^third-docs].
-
-[^third-docs]: abreviação do inglês - _third-party_ - que significa
-  "aquilo que é oriundo de terceiros"
+informações podem ser obtidas das páginas contidas em
+[docs](./docs/README.md).
