@@ -31,7 +31,7 @@ Por termos ciência das entidades, sabemos exatamente:
 A seguir temos a estrura das entidades usadas no projeto **(até
 então)**:
 
-<img src="../images/diagram.svg">
+<img src="https://github.com/nasccped/cruzeiro-itinerario-extensionista-7/blob/main/images/diagram.svg">
 <div align="center">
   <i>
     Representação das entidades e seus relacionamentos (diagrama).
