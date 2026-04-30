@@ -9,59 +9,86 @@ oferecer solução.
 
 Para o projeto em questão, temos os seguintes domínios:
 
-- `usuário`:
-  entidade com capacidade para interagir com o sistema, sendo autor
-  de eventos e recebedor de dados processados
-- `usuário moderador`:
-  similar ao anteriormente citado, mas com maiores privilégios
-- `report`:
-  registro gerado ao reportar um ponto de descarte irregular
-  (relaciona-se com `local`)
-- [`status do report`](#status-do-report)
-- [`ficha`](#ficha)
-- [`status da ficha`](#status-da-ficha)
-- `local`:
-  registro com informações de localidade
+<h6 align="right">29/04/2026</h6>
 
-## Ficha
-
-O termo 'ficha' refere-se ao registro com fim de relacionar um ou mais
-`report`s a um `local`. Pense que, caso seja emitido um report, é
-necessário não apenas associar o report a um lugar mas também
-associar a um período (se houver +1 report antes de o local receber
-os cuidados).
-
-Sendo assim, a ficha funciona como um 'container' que armazena
-`report`s relacionados:
+## Usuário e Moderador
 
 <div align="center">
 
-![representação visual de uma ficha](../../images/dominium-record-example.svg)
-
-_representação visual de uma ficha_
+![conjuntos de privilégios para moderador e usuário](../../images/dominium-user-and-moderator.svg "conjuntos de privilégios para moderador e usuário")
 
 </div>
 
-## Status do report
+`usuário` refere-se à um indivíduo com capacidade de interagir com o
+sistema, sendo autor de eventos ([`reports`](#report) e atualizações) e
+recebedor de dados processados.
 
-Uma vez que os reports possam ter os seus estados modificados,
-necessita-se armazenar o estados atual + os estados possíveis. Isso
-é chamado de `status do report` e é classificado como:
+`moderador` por sua vez refere-se à uma entidade com essas mesmas
+capacidades, mas com maiores privilégios.
 
-- `em aberto`:
-  o report já foi aberto e aguarda para ser atendido.
-- `suspenso`:
-  quando o report é suspenso (temporariamente inválido) a partir de
-  certa justificativa
-- `cancelado`:
-  quando o `usuário` autor ou o `usuário moderador` cancelam o report
-  por não ser aplicável
-- `atendido`:
-  quando a ficha ao qual o `report` pertence já foi atendida
-  (encerrada) 
+## Report
 
-## Status da ficha
+<div align="center">
 
-Funciona de maneira similar ao [status do report](#status-do-report),
-mas aplicável em específico para a(s) ficha(s), podendo ser
-atualizado apenas por um `usuário moderador`.
+![exemplo de registro de report](../../images/dominium-report-example.svg "exemplo de registro de report")
+
+</div>
+
+`report` refere-se a um registro gerado gerado ao reportar um ponto
+de descarte irregular.
+
+Está fortemente associado com outros campos, como
+[`localidade`](#localidade), autor ([`usuário`](#usuario-e-moderador)),
+timestamp, etc.
+
+## Ficha
+
+<div align="center">
+
+![exemplo de ficha](../../images/dominium-record-example.svg "exemplo de ficha")
+
+</div>
+
+`ficha` refere-se ao registro que relaciona um ou mais
+[`reports`](#report) a um [`local`](#localidade), funcionando de
+maneira similar a um _'container'_ que armazena o conjunto de
+reports.
+
+## Status do usuário, do report e da ficha
+
+<div align="center">
+
+![exemplo de status](../../images/dominium-status-example.svg "exemplo de status")
+
+</div>
+
+Existem diferentes status para as diferentes entidades do sistema:
+
+### Status do usuário
+
+Determina se um usuário está suspenso de efetuar novos
+[`reports`](#report).
+
+### Status do report
+
+Determina qual a condição atual de um dado report:
+
+- aberto (aguardando ser atendido)
+- indeterminadamente suspenso
+- cancelado
+- fechado (já atendido)
+
+### Status da ficha
+
+Similar ao anterior, mas destinando-se às [`fichas`](#ficha).
+
+### Localidade
+
+<div align="center">
+
+![exemplo de localidade](../../images/dominium-locale-example.svg "exemplo de localidade")
+
+</div>
+
+`localidade` refere-se ao conjunto de dados que expressam um lugar
+(ao qual o [`report`](#report) diz respeito).
