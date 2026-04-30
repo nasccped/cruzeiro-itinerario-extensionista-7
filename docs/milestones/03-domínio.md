@@ -13,12 +13,6 @@ Para o projeto em questão, temos os seguintes domínios:
 
 ## Usuário e Moderador
 
-<div align="center">
-
-![conjuntos de privilégios para moderador e usuário](../../images/dominium-user-and-moderator.svg "conjuntos de privilégios para moderador e usuário")
-
-</div>
-
 `usuário` refere-se à um indivíduo com capacidade de interagir com o
 sistema, sendo autor de eventos ([`reports`](#report) e atualizações) e
 recebedor de dados processados.
@@ -27,12 +21,6 @@ recebedor de dados processados.
 capacidades, mas com maiores privilégios.
 
 ## Report
-
-<div align="center">
-
-![exemplo de registro de report](../../images/dominium-report-example.svg "exemplo de registro de report")
-
-</div>
 
 `report` refere-se a um registro gerado gerado ao reportar um ponto
 de descarte irregular.
@@ -43,24 +31,12 @@ timestamp, etc.
 
 ## Ficha
 
-<div align="center">
-
-![exemplo de ficha](../../images/dominium-record-example.svg "exemplo de ficha")
-
-</div>
-
 `ficha` refere-se ao registro que relaciona um ou mais
 [`reports`](#report) a um [`local`](#localidade), funcionando de
 maneira similar a um _'container'_ que armazena o conjunto de
 reports.
 
 ## Status do usuário, do report e da ficha
-
-<div align="center">
-
-![exemplo de status](../../images/dominium-status-example.svg "exemplo de status")
-
-</div>
 
 Existem diferentes status para as diferentes entidades do sistema:
 
@@ -82,13 +58,7 @@ Determina qual a condição atual de um dado report:
 
 Similar ao anterior, mas destinando-se às [`fichas`](#ficha).
 
-### Localidade
-
-<div align="center">
-
-![exemplo de localidade](../../images/dominium-locale-example.svg "exemplo de localidade")
-
-</div>
+## Localidade
 
 `localidade` refere-se ao conjunto de dados que expressam um lugar
 (ao qual o [`report`](#report) diz respeito).
