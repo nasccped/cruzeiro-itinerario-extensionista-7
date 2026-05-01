@@ -9,7 +9,13 @@ abordados são **casos de uso** e **regras de negócio**.
 
 ## Casos de uso
 
-![diagrama de casos de uso](../../images/diagram-use-case.svg)
+<div align="center">
+<img
+  alt="diagrama de casos de uso"
+  src="../../images/diagram-use-case.svg"
+  width="750px"
+>
+</div>
 
 O projeto em questão é constituído pelos seguintes casos de uso:
 
