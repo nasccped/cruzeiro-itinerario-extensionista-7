@@ -76,3 +76,10 @@ O caso de uso `Atualizar ficha` refere-se ao endpoint:
 
 - `PATCH /records/{recordId}`, que recebe um `recordId` e atualiza
   os campos da ficha vinculada ao id
+
+## Endpoints extras
+
+Outro(s) endpoint(s) adicionados a fim de agilizar as fases de
+testes:
+
+- `POST /users/`, para adicionar novos usuários
