@@ -21,6 +21,7 @@ anterior a cada seção de conteúdo (parágrafo, título + parágrafo).
 
 1. [proposta de atividade](./01-proposta-de-atividade.md)
 2. [manual de extensão](./02-manual-de-extensão.md)
-3. [projeto](./03-projeto.md)
-4. [requisitos do projeto](./04-requisitos-do-projeto.md)
+3. [domínio](./03-domínio.md)
+4. [casos de uso e regras de negócio](./04-casos-de-uso-e-regras-de-negócio.md)
 5. [entidades](./05-entidades.md)
+6. [endpoints](./06-endpoints.md)
