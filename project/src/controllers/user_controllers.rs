@@ -17,7 +17,7 @@ impl UserControllers {
     /// Retorna uma lista com todos os usuários.
     pub async fn get_users(usecase: web::Data<UserUsecases>) -> impl Responder {
         let response = usecase.get_users().await;
-        HttpResponse::Ok().body(response.to_string())
+        HttpResponse::Ok().json(response)
     }
 
     /// Retorna o usuário especificado pelo id.
@@ -26,6 +26,6 @@ impl UserControllers {
         user_id: web::Path<String>,
     ) -> impl Responder {
         let response = usecase.get_user_by_id(user_id).await;
-        HttpResponse::Ok().body(response)
+        HttpResponse::Ok().json(response)
     }
 }
