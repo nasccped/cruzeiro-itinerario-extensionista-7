@@ -1,6 +1,7 @@
 mod config;
 mod controllers;
 mod helpers;
+mod models;
 mod usecases;
 
 use actix_web::{HttpServer, web};
