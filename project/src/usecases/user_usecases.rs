@@ -1,3 +1,4 @@
+use crate::models::users::{User, Users};
 use actix_web::web;
 
 /// Casos de uso para as operações com os usuários.
@@ -6,8 +7,8 @@ pub struct UserUsecases {}
 
 impl UserUsecases {
     /// Retorna uma lista com todos os usuários.
-    pub async fn get_users(&self) -> &str {
-        "Lista de usuários"
+    pub async fn get_users(&self) -> Users {
+        (0..3).map(|_| User::default()).collect()
     }
 
     /// Retorna o usuário especificado pelo id.
