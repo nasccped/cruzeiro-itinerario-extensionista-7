@@ -1,4 +1,4 @@
-use crate::usecases::UserUsecases;
+use crate::{controllers::LogAndSelf, usecases::UserUsecases};
 use actix_web::{HttpResponse, Responder, web};
 
 pub struct UserControllers {}
@@ -15,9 +15,13 @@ impl UserControllers {
     }
 
     /// Retorna uma lista com todos os usuários.
-    pub async fn get_users(usecase: web::Data<UserUsecases>) -> impl Responder {
-        let response = usecase.get_users().await;
-        HttpResponse::Ok().json(response)
+    pub async fn get_users(usecase: web::Data<UserUsecases>) -> HttpResponse {
+        let endpoint = Self::get_users_endpoint().into();
+        match usecase.get_users().await {
+            Ok(users) => HttpResponse::Ok().json(users),
+            Err(e) => HttpResponse::InternalServerError().body(e),
+        }
+        .log_and_self(endpoint, false)
     }
 
     /// Retorna o usuário especificado pelo id.
