@@ -1,9 +1,22 @@
 use serde::{Deserialize, Serialize};
-use std::time::SystemTime;
+use sqlx::{FromRow, prelude::Type};
+use time::OffsetDateTime;
 
 /// Tipo que representa um [`Vec`] (lista) de usuários.
 #[derive(Serialize, Deserialize)]
 pub struct Users(Vec<User>);
+
+impl Users {
+    /// Cria uma entidade [`Users`] vazia.
+    pub fn empty() -> Self {
+        Self(Vec::new())
+    }
+
+    /// Adiciona um novo usuário ao final do vetor de usuários.
+    pub fn push(&mut self, value: User) {
+        self.0.push(value);
+    }
+}
 
 impl FromIterator<User> for Users {
     fn from_iter<T: IntoIterator<Item = User>>(iter: T) -> Self {
@@ -12,50 +25,29 @@ impl FromIterator<User> for Users {
 }
 
 /// Tipo que representa um usuário.
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, FromRow)]
 pub struct User {
     /// Id do usuário.
     id: i32,
     /// Nome do usuário.
-    name: Box<str>,
+    user_name: Box<str>,
     /// E-mail do usuário.
-    mail: UserMail,
+    user_mail: Box<str>,
     /// Última data de modificação.
-    latest_modify: SystemTime,
+    latest_change: Option<OffsetDateTime>,
     /// Status do usuário.
+    #[sqlx(rename = "current_status")]
     status: UserStatus,
 }
 
-impl Default for User {
-    fn default() -> Self {
-        Self {
-            id: 0,
-            name: "Nome Fantasia".into(),
-            mail: UserMail {
-                local: "fantasia".into(),
-                dominium: "mail.com".into(),
-            },
-            latest_modify: SystemTime::now(),
-            status: UserStatus::default(),
-        }
-    }
-}
-
-/// Estrutura capaz de representar o e-mail de um usuário.
-#[derive(Serialize, Deserialize)]
-pub struct UserMail {
-    /// Parte local do e-mail.
-    local: Box<str>,
-    /// Domínio do e-mail.
-    dominium: Box<str>,
-}
-
 /// Status de usuário.
-#[derive(Default, Serialize, Deserialize)]
+#[repr(i32)]
+#[derive(Default, Serialize, Deserialize, Type)]
+#[sqlx(type_name = "INT4")]
 pub enum UserStatus {
     /// Disponível.
     #[default]
-    Available,
+    Available = 1,
     /// Suspenso.
-    Suspended,
+    Suspended = 2,
 }
