@@ -2,6 +2,7 @@ mod config;
 mod controllers;
 mod helpers;
 mod models;
+mod repositories;
 mod usecases;
 
 use actix_web::{HttpServer, web};
@@ -11,7 +12,7 @@ use config::Config;
 async fn main() {
     helpers::setup_dotenv();
     helpers::init_logger();
-    let conf = web::Data::new(Config::default());
+    let conf = web::Data::new(Config::new().await);
     let clone = conf.clone();
     let server = HttpServer::new(move || helpers::create_app(clone.clone()))
         .bind((conf.get_server_url(), conf.get_server_port()))
