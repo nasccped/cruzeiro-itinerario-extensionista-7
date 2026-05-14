@@ -36,6 +36,11 @@ pub fn could_not_build_server(err: impl Debug) -> ! {
     panic!("Não foi possível gerar o servidor: {err:?}");
 }
 
+/// Mensagem de [`panic`] quando não é possível conectar com o banco de dados.
+pub fn could_not_connect_to_db_panic<D: Debug>(err: D) -> ! {
+    panic!("Não foi possível connectar com o banco de dados => {err:?}");
+}
+
 /// Cria um novo [`App`] padrão para o projeto.
 pub fn create_app(
     config: web::Data<Config>,
