@@ -1,22 +1,26 @@
-CREATE TABLE userStatuses (
-  id         INT         PRIMARY KEY,
-  statusName VARCHAR(20) NOT NULL UNIQUE
+CREATE DATABASE project_db;
+
+\c project_db;
+
+CREATE TABLE user_statuses (
+  id          INT         PRIMARY KEY,
+  status_name VARCHAR(20) NOT NULL UNIQUE
 );
 
-INSERT INTO userStatuses (id, statusName)
+INSERT INTO user_statuses (id, status_name)
 VALUES 
   (1, 'Disponível'),
   (2, 'Suspenso'  );
 
 CREATE TABLE users (
-  id            SERIAL      PRIMARY KEY    ,
-  userName      VARCHAR(50) NOT NULL UNIQUE,
-  userMail      VARCHAR(50) NOT NULL UNIQUE,
-  latestChange  TIMESTAMP                  ,
-  currentStatus INT                        ,
+  id             SERIAL      PRIMARY KEY    ,
+  user_name      VARCHAR(50) NOT NULL UNIQUE,
+  user_mail      VARCHAR(50) NOT NULL UNIQUE,
+  latest_change  TIMESTAMP                  ,
+  current_status INT                        ,
 
-  CONSTRAINT fk_users_userStatuses
-    FOREIGN KEY (currentStatus)
-    REFERENCES userStatuses(id)
+  CONSTRAINT fk_users_user_statuses
+    FOREIGN KEY (current_status)
+    REFERENCES user_statuses(id)
     ON DELETE SET NULL
 );
