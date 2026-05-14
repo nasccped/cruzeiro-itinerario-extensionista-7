@@ -26,3 +26,20 @@ pub async fn app_home() -> impl Responder {
     );
     HttpResponse::Ok().body(response)
 }
+
+trait LogAndSelf {
+    /// Loga as informações e retorna si mesmo ao final do log.
+    fn log_and_self(self, endpoint: String, err: bool) -> Self;
+}
+
+impl LogAndSelf for HttpResponse {
+    fn log_and_self(self, endpoint: String, err: bool) -> Self {
+        let string = format!("acesso no endpoint `{}` retorna {:?}", endpoint, self);
+        if err {
+            log::error!("{}", string);
+        } else {
+            log::info!("{}", string);
+        }
+        self
+    }
+}
