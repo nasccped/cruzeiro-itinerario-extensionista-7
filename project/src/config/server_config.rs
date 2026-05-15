@@ -15,12 +15,15 @@ pub struct ServerConfig {
 
 impl Default for ServerConfig {
     fn default() -> Self {
-        let url = env::var(SERVER_URL).unwrap_or_else(|_| helpers::undefined_var_panic(SERVER_URL));
-        let port =
-            env::var(SERVER_PORT).unwrap_or_else(|_| helpers::undefined_var_panic(SERVER_PORT));
-        let port = port
-            .parse()
-            .unwrap_or_else(|_| helpers::invalid_var_format_panic(SERVER_PORT, port));
+        let unwrap_or_panic =
+            |var: &str| env::var(var).unwrap_or_else(|_| helpers::undefined_var_panic(var));
+        let parse = |x: &str| {
+            x.parse()
+                .unwrap_or_else(|_| helpers::invalid_var_format_panic(SERVER_PORT, x))
+        };
+        let url = unwrap_or_panic(SERVER_URL);
+        let port = unwrap_or_panic(SERVER_PORT);
+        let port = parse(port.as_str());
         Self { url, port }
     }
 }
