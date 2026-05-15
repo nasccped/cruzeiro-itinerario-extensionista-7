@@ -16,12 +16,12 @@ impl UserControllers {
 
     /// Retorna uma lista com todos os usuários.
     pub async fn get_users(usecase: web::Data<UserUsecases>) -> HttpResponse {
-        let endpoint = Self::get_users_endpoint().into();
-        match usecase.get_users().await {
-            Ok(users) => HttpResponse::Ok().json(users),
-            Err(e) => HttpResponse::InternalServerError().body(e),
-        }
-        .log_and_self(endpoint, false)
+        usecase
+            .get_users()
+            .await
+            .map(|users| HttpResponse::Ok().json(users))
+            .map_err(|e| HttpResponse::InternalServerError().body(e))
+            .log_and_self(Self::get_users_endpoint())
     }
 
     /// Retorna o usuário especificado pelo id.
