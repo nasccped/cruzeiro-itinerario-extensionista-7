@@ -1,7 +1,10 @@
 mod user_controllers;
 
 use actix_web::{HttpResponse, Responder};
-use std::collections::HashSet;
+use std::{
+    collections::HashSet,
+    fmt::{Debug, Display},
+};
 pub use user_controllers::UserControllers;
 
 /// Retorna o endpoint para [`app_home`].
@@ -27,19 +30,33 @@ pub async fn app_home() -> impl Responder {
     HttpResponse::Ok().body(response)
 }
 
-trait LogAndSelf {
-    /// Loga as informações e retorna si mesmo ao final do log.
-    fn log_and_self(self, endpoint: String, err: bool) -> Self;
+/// Função base para logs de info.
+fn log_info(endpoint: impl Display, response: impl Debug) {
+    log::info!(
+        "requisição no endpoint `{}` retorna `{:?}`",
+        endpoint,
+        response
+    );
 }
 
-impl LogAndSelf for HttpResponse {
-    fn log_and_self(self, endpoint: String, err: bool) -> Self {
-        let string = format!("acesso no endpoint `{}` retorna {:?}", endpoint, self);
-        if err {
-            log::error!("{}", string);
-        } else {
-            log::info!("{}", string);
-        }
-        self
+/// Função base para logs de erro.
+fn log_error(endpoint: impl Display, response: impl Debug) {
+    log::error!(
+        "requisição no endpoint `{}` retorna `{:?}`",
+        endpoint,
+        response
+    );
+}
+
+trait LogAndSelf<T> {
+    /// Loga as informações e retorna si mesmo ao final do log.
+    fn log_and_self(self, endpoint: impl Display) -> T;
+}
+
+impl LogAndSelf<HttpResponse> for Result<HttpResponse, HttpResponse> {
+    fn log_and_self(self, endpoint: impl Display) -> HttpResponse {
+        self.inspect(|resp| log_info(&endpoint, resp))
+            .inspect_err(|resp| log_error(endpoint, resp))
+            .unwrap_or_else(|err| err)
     }
 }
