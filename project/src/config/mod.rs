@@ -5,7 +5,6 @@ use crate::{helpers, usecases::UserUsecases};
 use actix_web::web;
 use connection_config::ConnectionConfig;
 use server_config::ServerConfig;
-use sqlx::{PgPool, postgres::PgPoolOptions};
 
 /// Configurações para toda a aplicação.
 pub struct Config {
@@ -17,7 +16,10 @@ pub struct Config {
 impl Config {
     pub async fn new() -> Self {
         let server_config = ServerConfig::default();
-        let conn = generate_connection().await;
+        let conn = ConnectionConfig::default()
+            .into_pool()
+            .await
+            .unwrap_or_else(|err| helpers::could_not_build_server(err));
         let user_usecases = web::Data::new(UserUsecases::new(conn));
         Self {
             server_config,
@@ -35,14 +37,5 @@ impl Config {
     /// Retorna a porta da aplicação.
     pub fn get_server_port(&self) -> u16 {
         self.server_config.server_port()
-    }
-}
-
-/// Retorna um [`PgPool`] a partir dos resultados das operações de `env`.
-async fn generate_connection() -> PgPool {
-    let conn_url = ConnectionConfig::default().get_url();
-    match PgPoolOptions::new().connect(&conn_url).await {
-        Ok(conn) => conn,
-        Err(e) => helpers::could_not_connect_to_db_panic(e),
     }
 }

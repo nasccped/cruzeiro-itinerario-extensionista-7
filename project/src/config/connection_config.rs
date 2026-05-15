@@ -1,4 +1,5 @@
 use crate::helpers;
+use sqlx::{PgPool, postgres::PgPoolOptions};
 use std::env;
 
 const POSTGRES_USER: &str = "POSTGRES_USER";
@@ -52,5 +53,14 @@ impl ConnectionConfig {
             "postgres://{}:{}@{}:{}/{}",
             self.username, self.password, self.db_host, self.db_port, self.db_name
         )
+    }
+
+    /// Convert o objeto [`ConnectionConfig`] em um [`Result`] de [`PgPool`] or [`sqlx::Error>`].
+    pub async fn into_pool(self) -> Result<PgPool, sqlx::Error> {
+        let url = format!(
+            "postgres://{}:{}@{}:{}/{}",
+            self.username, self.password, self.db_host, self.db_port, self.db_name
+        );
+        PgPoolOptions::new().connect(&url).await
     }
 }
