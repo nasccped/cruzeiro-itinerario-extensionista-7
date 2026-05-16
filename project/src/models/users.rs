@@ -6,23 +6,27 @@ use time::OffsetDateTime;
 
 /// Tipo que representa um [`Vec`] (lista) de usuários.
 #[derive(Serialize, Deserialize)]
-pub struct Users(Vec<User>);
+pub struct Users {
+    users: Vec<User>,
+}
 
 impl Users {
     /// Cria uma entidade [`Users`] vazia.
     pub fn empty() -> Self {
-        Self(Vec::new())
+        Self { users: Vec::new() }
     }
 
     /// Adiciona um novo usuário ao final do vetor de usuários.
     pub fn push(&mut self, value: User) {
-        self.0.push(value);
+        self.users.push(value);
     }
 }
 
 impl FromIterator<User> for Users {
     fn from_iter<T: IntoIterator<Item = User>>(iter: T) -> Self {
-        Self(iter.into_iter().collect())
+        Self {
+            users: Vec::from_iter(iter),
+        }
     }
 }
 
