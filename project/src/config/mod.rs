@@ -19,7 +19,7 @@ impl Config {
         let conn = ConnectionConfig::default()
             .into_pool()
             .await
-            .unwrap_or_else(|err| helpers::could_not_build_server(err));
+            .unwrap_or_else(|err| helpers::could_not_connect_to_db_panic(err));
         let user_usecases = web::Data::new(UserUsecases::new(conn));
         Self {
             server_config,
