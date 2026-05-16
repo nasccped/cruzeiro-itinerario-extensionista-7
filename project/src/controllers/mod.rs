@@ -1,4 +1,5 @@
 mod user_controllers;
+mod utils;
 
 use actix_web::{HttpResponse, Responder};
 use std::{

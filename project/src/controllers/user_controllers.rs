@@ -1,5 +1,8 @@
-use crate::{controllers::LogAndSelf, usecases::UserUsecases};
-use actix_web::{HttpResponse, Responder, web};
+use crate::{
+    controllers::{LogAndSelf, utils::IntoHttpResponseResult},
+    usecases::UserUsecases,
+};
+use actix_web::{HttpResponse, web};
 
 pub struct UserControllers {}
 
@@ -19,8 +22,7 @@ impl UserControllers {
         usecase
             .get_users()
             .await
-            .map(|users| HttpResponse::Ok().json(users))
-            .map_err(|e| HttpResponse::InternalServerError().body(e))
+            .into_http_response()
             .log_and_self(Self::get_users_endpoint())
     }
 
@@ -28,8 +30,11 @@ impl UserControllers {
     pub async fn get_user_by_id(
         usecase: web::Data<UserUsecases>,
         user_id: web::Path<String>,
-    ) -> impl Responder {
-        let response = usecase.get_user_by_id(user_id).await;
-        HttpResponse::Ok().json(response)
+    ) -> HttpResponse {
+        usecase
+            .get_user_by_id(user_id.as_str())
+            .await
+            .into_http_response()
+            .log_and_self(Self::get_user_by_id_endpoint())
     }
 }
