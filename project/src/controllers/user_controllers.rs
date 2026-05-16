@@ -1,7 +1,5 @@
-use crate::{
-    controllers::{LogAndSelf, utils::IntoHttpResponseResult},
-    usecases::UserUsecases,
-};
+use super::log_helper::LogAndSelf;
+use crate::{controllers::utils::IntoHttpResponseResult, usecases::UserUsecases};
 use actix_web::{HttpResponse, web};
 
 pub struct UserControllers {}
