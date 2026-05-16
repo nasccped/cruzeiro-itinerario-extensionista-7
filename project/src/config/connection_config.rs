@@ -47,14 +47,6 @@ impl Default for ConnectionConfig {
 }
 
 impl ConnectionConfig {
-    /// Retorna a [`ConnectionConfig`] como uma URL.
-    pub fn get_url(&self) -> String {
-        format!(
-            "postgres://{}:{}@{}:{}/{}",
-            self.username, self.password, self.db_host, self.db_port, self.db_name
-        )
-    }
-
     /// Convert o objeto [`ConnectionConfig`] em um [`Result`] de [`PgPool`] or [`sqlx::Error>`].
     pub async fn into_pool(self) -> Result<PgPool, sqlx::Error> {
         let url = format!(
