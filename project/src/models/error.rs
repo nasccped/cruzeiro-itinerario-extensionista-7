@@ -26,7 +26,7 @@ impl<Model: Any, Input: Debug> ModelParseError<Model, Input> {
 
 impl<Model: Any, Input: Debug> Into<HttpResponse> for ModelParseError<Model, Input> {
     fn into(self) -> HttpResponse {
-        HttpResponse::InternalServerError().body(self.to_string())
+        HttpResponse::UnprocessableEntity().body(self.to_string())
     }
 }
 
