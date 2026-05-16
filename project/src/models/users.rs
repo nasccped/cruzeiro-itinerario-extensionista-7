@@ -1,3 +1,5 @@
+#![allow(clippy::from_over_into)]
+use actix_web::HttpResponse;
 use serde::{Deserialize, Serialize};
 use sqlx::{FromRow, prelude::Type};
 use time::OffsetDateTime;
@@ -24,6 +26,12 @@ impl FromIterator<User> for Users {
     }
 }
 
+impl Into<HttpResponse> for Users {
+    fn into(self) -> HttpResponse {
+        HttpResponse::Ok().json(self)
+    }
+}
+
 /// Tipo que representa um usuário.
 #[derive(Serialize, Deserialize, FromRow)]
 pub struct User {
@@ -38,6 +46,12 @@ pub struct User {
     /// Status do usuário.
     #[sqlx(rename = "current_status")]
     status: UserStatus,
+}
+
+impl Into<HttpResponse> for User {
+    fn into(self) -> HttpResponse {
+        HttpResponse::Ok().json(self)
+    }
 }
 
 /// Status de usuário.
