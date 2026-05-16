@@ -1,5 +1,5 @@
-use super::log_helper::LogAndSelf;
-use crate::{controllers::utils::IntoHttpResponseResult, usecases::UserUsecases};
+use super::utils;
+use crate::usecases::UserUsecases;
 use actix_web::{HttpResponse, web};
 
 const USERS_ENDPOINT: &str = "/users";
@@ -25,11 +25,7 @@ impl UserControllers {
 
     /// Retorna uma lista com todos os usuários.
     pub async fn get_users(usecase: web::Data<UserUsecases>) -> HttpResponse {
-        usecase
-            .get_users()
-            .await
-            .into_http_response()
-            .log_and_self(Self::get_users_endpoint())
+        utils::log_and_normalize(usecase.get_users().await, Self::get_users_endpoint())
     }
 
     /// Retorna o usuário especificado pelo id.
@@ -37,20 +33,14 @@ impl UserControllers {
         usecase: web::Data<UserUsecases>,
         user_id: web::Path<String>,
     ) -> HttpResponse {
-        let id = user_id.as_str();
-        let endpoint = Self::get_user_by_id_endpoint().replace("{userId}", id);
-        usecase
-            .get_user_by_id(id)
-            .await
-            .into_http_response()
-            .log_and_self(endpoint)
+        utils::log_and_normalize(
+            usecase.get_user_by_id(user_id.as_str()).await,
+            Self::get_user_by_id_endpoint().replace("{userId}", user_id.as_str()),
+        )
     }
 
     /// Adiciona um novo usuário ao banco de dados.
-    pub async fn post_user(_usecase: web::Data<UserUsecases>) -> HttpResponse {
-        HttpResponse::Ok().body(format!(
-            "TODO: endpoint `{}` acessado. Criar novo usuário!",
-            Self::post_user_endpoint()
-        ))
+    pub async fn post_user(usecase: web::Data<UserUsecases>, body: String) -> HttpResponse {
+        utils::log_and_normalize(usecase.post_user(body).await, Self::post_user_endpoint())
     }
 }

@@ -1,10 +1,12 @@
 use super::UserControllers;
-use super::log_helper::LogAndSelf;
+use super::utils;
 use actix_web::HttpResponse;
 use std::collections::HashSet;
 
 /// Struct para o endpoint raíz (`/`).
 pub struct Home {}
+
+type HomeResult = Result<HttpResponse, HttpResponse>;
 
 impl Home {
     /// Retorna o endpoint para [`Home::app_home`].
@@ -27,6 +29,9 @@ impl Home {
                 .collect::<Vec<_>>()
                 .join("\n"),
         );
-        Ok(HttpResponse::Ok().body(response)).log_and_self(Self::get_app_home_endpoint())
+        utils::log_and_normalize(
+            HomeResult::Ok(HttpResponse::Ok().body(response)),
+            Self::get_app_home_endpoint(),
+        )
     }
 }
