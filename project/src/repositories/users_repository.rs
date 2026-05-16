@@ -1,7 +1,9 @@
-use super::DbOperationError;
+use super::error::DbOperationError;
 use sqlx::{PgPool, postgres::PgRow};
 
 const SELECT_FROM_USERS_QUERY: &str = include_str!("../../db-templates/select-from-users.sql");
+const SELECT_FROM_USERS_BY_ID_QUERY: &str =
+    include_str!("../../db-templates/select-from-users-by-id.sql");
 
 /// Repositório para as operações relacionadas com [`Users`].
 pub struct UserRepository {
@@ -21,6 +23,15 @@ impl UserRepository {
         sqlx::query(SELECT_FROM_USERS_QUERY)
             .fetch_all(&self.conn)
             .await
-            .map_err(|e| DbOperationError::from(e).with_query(SELECT_FROM_USERS_QUERY))
+            .map_err(|e| DbOperationError::from_err_and_query(e, SELECT_FROM_USERS_BY_ID_QUERY))
+    }
+
+    /// Retorna um usuário específico daa tabela [`crate::models::users::Users`].
+    pub async fn get_user_by_id(&self, id: i128) -> Result<Option<PgRow>, DbOperationError> {
+        sqlx::query(SELECT_FROM_USERS_BY_ID_QUERY)
+            .bind(id.to_string())
+            .fetch_optional(&self.conn)
+            .await
+            .map_err(|e| DbOperationError::from_err_and_query(e, SELECT_FROM_USERS_BY_ID_QUERY))
     }
 }
