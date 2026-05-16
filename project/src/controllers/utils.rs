@@ -1,8 +1,8 @@
 use actix_web::HttpResponse;
 
-/// Trait comum para converter tipos em [`HttpResponse`].
+/// Trait comum para conversão de [`HttpResponse`].
 pub trait IntoHttpResponseResult {
-    /// Convert todo [`Result<T, E>`] (desde que `T` e `E` implementem [`Into<HttpResponse>`]) em
+    /// Converte todo [`Result<T, E>`] (desde que `T` e `E` implementem [`Into<HttpResponse>`]) em
     /// [`Result<HttpResponse, HttpResponse>`].
     fn into_http_response(self) -> Result<HttpResponse, HttpResponse>;
 }
