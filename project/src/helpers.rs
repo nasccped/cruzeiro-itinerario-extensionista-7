@@ -65,6 +65,10 @@ pub fn create_app(
             UserControllers::get_user_by_id_endpoint(),
             web::get().to(UserControllers::get_user_by_id),
         ),
+        (
+            UserControllers::post_user_endpoint(),
+            web::post().to(UserControllers::post_user),
+        ),
     ];
     for (endpoint, route) in endpoints_and_routes {
         app = app.route(endpoint, route);
