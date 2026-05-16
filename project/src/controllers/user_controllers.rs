@@ -31,10 +31,12 @@ impl UserControllers {
         usecase: web::Data<UserUsecases>,
         user_id: web::Path<String>,
     ) -> HttpResponse {
+        let id = user_id.as_str();
+        let endpoint = Self::get_user_by_id_endpoint().replace("{userId}", id);
         usecase
-            .get_user_by_id(user_id.as_str())
+            .get_user_by_id(id)
             .await
             .into_http_response()
-            .log_and_self(Self::get_user_by_id_endpoint())
+            .log_and_self(endpoint)
     }
 }
