@@ -78,7 +78,7 @@ pub enum GetUserByIdError {
     /// Quando o id é inválido.
     InvalidId(String),
     /// Quando usuário de id especificado não existe.
-    NotFound(i128),
+    NotFound(i64),
     /// Quando o erro ocorre na execução da query.
     DbQuery(DbOperationError),
     /// Quando o erro ocorre na deserialização da [`PgRow`].
