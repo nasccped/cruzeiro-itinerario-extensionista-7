@@ -3,7 +3,7 @@ create database project_db;
 \c project_db;
 
 -- enumerador para o status do usuário.
-CREATE TYPE USER_STATUSES AS ENUM ('available', 'suspended');
+CREATE TYPE USER_STATUS AS ENUM ('available', 'suspended');
 
 -- tabela para os usuários
 CREATE TABLE users (
@@ -11,7 +11,7 @@ CREATE TABLE users (
   user_name      VARCHAR(50) NOT NULL UNIQUE,
   user_mail      VARCHAR(50) NOT NULL UNIQUE,
   latest_change  TIMESTAMPTZ                ,
-  current_status USER_STATUSES
+  current_status USER_STATUS
 );
 
 -- tabela para os moderadores
