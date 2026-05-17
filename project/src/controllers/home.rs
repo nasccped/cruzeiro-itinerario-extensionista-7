@@ -1,5 +1,5 @@
 use super::_utils as utils;
-use super::UserController;
+use super::{ModeratorController, UserController};
 use actix_web::HttpResponse;
 use std::collections::HashSet;
 
@@ -21,6 +21,7 @@ impl HomeController {
             UserController::get_users_endpoint(),
             UserController::get_user_by_id_endpoint(),
             UserController::post_user_endpoint(),
+            ModeratorController::get_moderators_endpoint(),
         ]
         .into();
         response.push_str(
