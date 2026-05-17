@@ -1,6 +1,6 @@
 use crate::{
     config::Config,
-    controllers::{Home, UserControllers},
+    controllers::{HomeController, UserController},
 };
 use actix_web::{
     App, Error,
@@ -53,21 +53,24 @@ pub fn create_app(
         Error = Error,
     >,
 > {
-    let user_usecases = config.user_usecases.clone();
+    let user_usecases = config.user_usecase.clone();
     let mut app = App::new().app_data(user_usecases).app_data(config.clone());
     let endpoints_and_routes = [
-        (Home::get_app_home_endpoint(), web::get().to(Home::app_home)),
         (
-            UserControllers::get_users_endpoint(),
-            web::get().to(UserControllers::get_users),
+            HomeController::get_app_home_endpoint(),
+            web::get().to(HomeController::app_home),
         ),
         (
-            UserControllers::get_user_by_id_endpoint(),
-            web::get().to(UserControllers::get_user_by_id),
+            UserController::get_users_endpoint(),
+            web::get().to(UserController::get_users),
         ),
         (
-            UserControllers::post_user_endpoint(),
-            web::post().to(UserControllers::post_user),
+            UserController::get_user_by_id_endpoint(),
+            web::get().to(UserController::get_user_by_id),
+        ),
+        (
+            UserController::post_user_endpoint(),
+            web::post().to(UserController::post_user),
         ),
     ];
     for (endpoint, route) in endpoints_and_routes {
