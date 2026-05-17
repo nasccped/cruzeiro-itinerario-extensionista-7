@@ -24,3 +24,13 @@ CREATE TABLE users (
     REFERENCES user_statuses(id)
     ON DELETE SET NULL
 );
+
+CREATE TABLE moderators (
+  id      SERIAL PRIMARY KEY ,
+  user_id INT UNIQUE NOT NULL,
+
+  CONSTRAINT fk_users_user_id
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    ON DELETE CASCADE
+);
