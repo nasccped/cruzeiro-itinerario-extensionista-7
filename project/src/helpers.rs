@@ -77,6 +77,10 @@ pub fn create_app(
             ModeratorController::get_moderators_endpoint(),
             web::get().to(ModeratorController::get_moderators),
         ),
+        (
+            ModeratorController::post_moderator_endpoint(),
+            web::post().to(ModeratorController::post_moderator),
+        ),
     ];
     for (endpoint, route) in endpoints_and_routes {
         app = app.route(endpoint, route);
