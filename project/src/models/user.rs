@@ -1,5 +1,3 @@
-#![allow(clippy::from_over_into)]
-use actix_web::HttpResponse;
 use serde::{Deserialize, Serialize};
 use sqlx::{FromRow, prelude::Type};
 use time::OffsetDateTime;
@@ -18,12 +16,6 @@ pub struct User {
     /// Status do usuário.
     #[sqlx(rename = "current_status")]
     status: UserStatus,
-}
-
-impl Into<HttpResponse> for User {
-    fn into(self) -> HttpResponse {
-        HttpResponse::Ok().json(self)
-    }
 }
 
 /// Model para criação de um novo usuário no banco de dados (mesmo de [`User`] mas sem
