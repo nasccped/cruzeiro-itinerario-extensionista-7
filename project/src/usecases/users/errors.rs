@@ -34,9 +34,9 @@ pub enum GetUserByIdError {
     /// A falha foi um [`CommonUserError`].
     #[error(transparent)]
     Common(CommonUserError),
-    /// Usuário de id [`i64`] não existe no banco de dados.
+    /// Usuário de id [`i32`] não existe no banco de dados.
     #[error("Usuário de id `{}` não foi encontrado!", .0)]
-    NotFound(i64),
+    NotFound(i32),
     /// O id fornecido para busca não é reconhecido como válido.
     #[error("Id fornecido para busca (`{}`) não é válido!", .0)]
     InvalidId(String),

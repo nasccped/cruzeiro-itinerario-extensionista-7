@@ -84,7 +84,7 @@ async fn try_get_users(repo: &UserRepository) -> TryGetUserOutput {
 }
 
 /// Tenta obter um usuário (especificado pelo id) do banco de dados.
-async fn try_get_user_by_id(repo: &UserRepository, id: i64) -> TryGetUserByIdOutput {
+async fn try_get_user_by_id(repo: &UserRepository, id: i32) -> TryGetUserByIdOutput {
     repo.get_user_by_id(id).await
 }
 
