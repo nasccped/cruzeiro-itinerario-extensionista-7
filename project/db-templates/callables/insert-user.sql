@@ -1,3 +1,3 @@
-INSERT INTO users (user_name, user_mail, current_status)
+INSERT INTO users (user_name, user_mail)
 VALUES
   ($1, $2);
