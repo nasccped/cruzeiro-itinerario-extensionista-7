@@ -7,7 +7,6 @@ use crate::{
     repositories::{UserRepository, error::RepositoryError},
     usecases::users::errors::PostUserError,
 };
-use serde_json::Value;
 use sqlx::{
     FromRow,
     postgres::{PgPool, PgRow},
@@ -54,9 +53,8 @@ impl UserUsecase {
     pub async fn post_user(&self, body: String) -> Result<PostUserOutput, PostUserError> {
         let invalid_name = |name: &str| PostUserError::InvalidName(name.to_string());
         let invalid_mail = |mail: &str| PostUserError::InvalidMail(mail.to_string());
-        let json = try_str_to_json(body.clone()).map_err(PostUserError::InvalidBody)?;
         let model: CreateUserModel =
-            serde_json::from_value(json).map_err(|_| PostUserError::InvalidBody(body))?;
+            serde_json::from_str(&body).map_err(|_| PostUserError::InvalidBody(body))?;
         if !model.name_is_valid() {
             return Err(invalid_name(model.name()));
         } else if !model.email_is_valid() {
@@ -79,7 +77,6 @@ type TryGetUserOutput = Result<Vec<PgRow>, RepositoryError>;
 type TryGetUserByIdOutput = Result<Option<PgRow>, RepositoryError>;
 type TryPostUserOutput = Result<(), RepositoryError>;
 type TryRowToUserOutput = Result<User, ModelParseError<User, PgRow>>;
-type TryStrToJson = Result<Value, String>;
 
 /// Tenta obter os usuários do banco de dados.
 async fn try_get_users(repo: &UserRepository) -> TryGetUserOutput {
@@ -94,11 +91,6 @@ async fn try_get_user_by_id(repo: &UserRepository, id: i64) -> TryGetUserByIdOut
 /// Tenta converter uma [`PgRow`] para [`User`].
 fn try_row_to_user(row: PgRow) -> TryRowToUserOutput {
     User::from_row(&row).map_err(|e| ModelParseError::from_err_and_input(e, row))
-}
-
-/// Tenta converter uma [`String`] em um [`Value`].
-fn try_str_to_json(s: String) -> TryStrToJson {
-    serde_json::from_str(s.as_str()).map_err(|_| s)
 }
 
 async fn post_user_or_err(repo: &UserRepository, model: CreateUserModel) -> TryPostUserOutput {
