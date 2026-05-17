@@ -28,7 +28,7 @@ em um corpo json:
       "user_mail": "contact@goodman.accessory.com",
       "latest_change": null,
       "current_status": "suspended"
-    }
+    },
     // outros...
   ]
 }
@@ -79,7 +79,7 @@ Espera-se que o body seja um json no seguinte formato:
 ```json
 {
   "user_name": "Um Nome de Exemplo",
-  "user_mail": "exemplo@mail.com",
+  "user_mail": "exemplo@mail.com"
 }
 ```
 
@@ -105,7 +105,7 @@ Acessa a _connection pool_ do postgres e retorna uma lista de
       "moderator_id": 2,
       "user_id": 12,
       "name": "Gus Fring",
-      "mail": "ceo@pollos.com"
+      "mail": "ceo@pollos.com",
       "since": "2026-05-17T17:49:53Z"
     },
     // outros...
@@ -127,7 +127,7 @@ Assim como a requisição [`POST /users`](#post-users---adicionar-usuário),
 é necessário convert o `body` para um `model` comum:
 ```json
 {
-  "user_id": 22,
+  "user_id": 22
 }
 ```
 
