@@ -1,7 +1,10 @@
 mod connection_config;
 mod server_config;
 
-use crate::{helpers, usecases::users::UserUsecase};
+use crate::{
+    helpers,
+    usecases::{moderator::ModeratorUsecase, users::UserUsecase},
+};
 use actix_web::web;
 use connection_config::ConnectionConfig;
 use server_config::ServerConfig;
@@ -11,6 +14,8 @@ pub struct Config {
     server_config: ServerConfig,
     /// Casos de uso para as operações com os usuários.
     pub user_usecase: web::Data<UserUsecase>,
+    /// Casos de uso para as operações com os moderadores.
+    pub moderator_usecase: web::Data<ModeratorUsecase>,
 }
 
 impl Config {
@@ -20,10 +25,12 @@ impl Config {
             .into_pool()
             .await
             .unwrap_or_else(|err| helpers::could_not_connect_to_db_panic(err));
-        let user_usecase = web::Data::new(UserUsecase::new(conn));
+        let user_usecase = web::Data::new(UserUsecase::new(conn.clone()));
+        let moderator_usecase = web::Data::new(ModeratorUsecase::new(conn));
         Self {
             server_config,
             user_usecase,
+            moderator_usecase,
         }
     }
 }
