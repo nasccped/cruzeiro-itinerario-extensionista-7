@@ -1,18 +1,18 @@
+use super::generic_date_time::GenericDateTime;
 use serde::{Deserialize, Serialize};
 use sqlx::{FromRow, prelude::Type};
-use time::OffsetDateTime;
 
 /// Tipo que representa um usuário.
 #[derive(Serialize, Deserialize, FromRow, Debug)]
 pub struct User {
     /// Id do usuário.
-    id: i64,
+    id: i32,
     /// Nome do usuário.
     user_name: String,
     /// E-mail do usuário.
     user_mail: String,
     /// Última data de modificação.
-    latest_change: Option<OffsetDateTime>,
+    latest_change: Option<GenericDateTime>,
     /// Status do usuário.
     #[sqlx(rename = "current_status")]
     status: UserStatus,
