@@ -4,40 +4,27 @@ use crate::{
     repositories::error::RepositoryError,
 };
 use actix_web::HttpResponse;
-use sqlx::{Error as SqlError, error::ErrorKind, postgres::PgRow};
+use sqlx::{error::ErrorKind, postgres::PgRow};
 
 /// Possíveis erros para [`super::UserUsecase::get_users`].
-#[derive(thiserror::Error, Debug)]
-pub enum GetUsersError {
-    /// Quando o erro refere-se à [`CommonUserError`] especificamente.
-    #[error(transparent)]
-    Common(CommonUserError),
-    /// Quando o erro refere-se à [`SqlError`] especificamente.
-    #[error("Erro no `sqlx::Error` (ao executar query): {:?}", .0)]
-    Other(SqlError),
-}
+pub struct GetUsersError(CommonUserError);
 
 impl From<RepositoryError> for GetUsersError {
     fn from(value: RepositoryError) -> Self {
-        Self::Common(CommonUserError::from(value))
+        Self(CommonUserError::Repository(value))
     }
 }
 
 impl From<ModelParseError<User, PgRow>> for GetUsersError {
     fn from(value: ModelParseError<User, PgRow>) -> Self {
-        Self::Common(CommonUserError::from(value))
-    }
-}
-
-impl From<SqlError> for GetUsersError {
-    fn from(value: SqlError) -> Self {
-        Self::Other(value)
+        Self(CommonUserError::UserParsing(value))
     }
 }
 
 impl From<GetUsersError> for HttpResponse {
     fn from(val: GetUsersError) -> Self {
-        HttpResponse::InternalServerError().body(val.to_string())
+        let inner = val.0;
+        inner.into()
     }
 }
 
@@ -57,13 +44,13 @@ pub enum GetUserByIdError {
 
 impl From<RepositoryError> for GetUserByIdError {
     fn from(value: RepositoryError) -> Self {
-        Self::Common(CommonUserError::from(value))
+        Self::Common(CommonUserError::Repository(value))
     }
 }
 
 impl From<ModelParseError<User, PgRow>> for GetUserByIdError {
     fn from(value: ModelParseError<User, PgRow>) -> Self {
-        Self::Common(CommonUserError::from(value))
+        Self::Common(CommonUserError::UserParsing(value))
     }
 }
 
@@ -85,18 +72,6 @@ enum CommonUserError {
     Repository(RepositoryError),
     /// Quando o erro ocorre na deserialização da [`PgRow`].
     UserParsing(ModelParseError<User, PgRow>),
-}
-
-impl From<RepositoryError> for CommonUserError {
-    fn from(value: RepositoryError) -> Self {
-        Self::Repository(value)
-    }
-}
-
-impl From<ModelParseError<User, PgRow>> for CommonUserError {
-    fn from(value: ModelParseError<User, PgRow>) -> Self {
-        Self::UserParsing(value)
-    }
 }
 
 impl From<CommonUserError> for HttpResponse {
