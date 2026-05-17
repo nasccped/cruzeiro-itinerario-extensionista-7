@@ -56,10 +56,11 @@ impl From<ModelParseError<User, PgRow>> for GetUserByIdError {
 
 impl From<GetUserByIdError> for HttpResponse {
     fn from(val: GetUserByIdError) -> Self {
+        let s = val.to_string();
         match val {
             GetUserByIdError::Common(err) => err.into(),
-            GetUserByIdError::NotFound(_) => HttpResponse::NotFound().body(val.to_string()),
-            GetUserByIdError::InvalidId(_) => HttpResponse::BadRequest().body(val.to_string()),
+            GetUserByIdError::NotFound(_) => HttpResponse::NotFound().body(s),
+            GetUserByIdError::InvalidId(_) => HttpResponse::BadRequest().body(s),
         }
     }
 }
@@ -147,12 +148,13 @@ impl From<RepositoryError> for PostUserError {
 
 impl From<PostUserError> for HttpResponse {
     fn from(val: PostUserError) -> Self {
+        let s = val.to_string();
         match val {
             PostUserError::InvalidBody(_)
             | PostUserError::InvalidName(_)
-            | PostUserError::InvalidMail(_) => HttpResponse::BadRequest().body(val.to_string()),
+            | PostUserError::InvalidMail(_) => HttpResponse::BadRequest().body(s),
             PostUserError::NameUniqueViolation(_) | PostUserError::MailUniqueViolation(_) => {
-                HttpResponse::InternalServerError().body(val.to_string())
+                HttpResponse::Conflict().body(s)
             }
             PostUserError::Repository(repo) => repo.into(),
         }
