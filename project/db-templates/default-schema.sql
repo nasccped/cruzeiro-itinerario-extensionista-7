@@ -38,41 +38,63 @@ JOIN users u
 ON m.user_id = u.id;
 
 -- tipo para quando 'INSERT_INTO_MODERATORS' é chamado.
-CREATE TYPE MODERATOR_INSERTION_RESULT AS ENUM (
+CREATE TYPE MODERATOR_INSERTION_VARIANT AS ENUM (
   'done',
   'issuspended',
   'notfound',
   'alreadymoderator'
 );
 
+CREATE TYPE MODERATOR_INSERTION_RESULT AS (
+  result  MODERATOR_INSERTION_VARIANT,
+  user_id INT
+);
+
 -- função que realiza checagens para manter integridade antes de adicionar à tabela.
-CREATE FUNCTION insert_into_moderators(IN p_id INTEGER) RETURNS moderator_insertion_result
+CREATE FUNCTION insert_into_moderators(IN p_id INTEGER) RETURNS MODERATOR_INSERTION_RESULT
 LANGUAGE plpgsql
 AS $$
 DECLARE
-  exists BOOLEAN;
-  is_suspended BOOLEAN;
-  is_moderator BOOLEAN;
+  v_exists BOOLEAN;
+  v_is_suspended BOOLEAN;
+  v_is_moderator BOOLEAN;
+  v_result MODERATOR_INSERTION_RESULT;
 BEGIN
+  -- testar se existe.
   SELECT EXISTS (
-    SELECT 1 FROM users AS u WHERE u.id = p_id
-  ) INTO exists;
-  IF NOT exists THEN
-    RETURN 'notfound';
+    SELECT 1 FROM users u WHERE u.id = p_id
+  ) INTO v_exists;
+  IF NOT v_exists THEN
+    v_result.result := 'notfound';
+    v_result.user_id := p_id;
+    RETURN v_result;
   END IF;
-  SELECT (current_status = 'suspended') INTO is_suspended
-  FROM users AS u WHERE p_id = u.id;
-  IF is_suspended THEN
-    RETURN 'issuspended';
+  -- testar se está suspenso.
+  SELECT (
+    u.current_status = 'suspended'
+  ) INTO v_is_suspended
+  FROM users u WHERE u.id = p_id;
+  IF v_is_suspended THEN
+    v_result.result := 'issuspended';
+    v_result.user_id := p_id;
+    RETURN v_result;
   END IF;
+  -- testar se já é moderador.
   SELECT EXISTS (
-    SELECT 1 FROM moderators m WHERE m.user_id = p_id
-  ) INTO is_moderator;
-  IF is_moderator THEN
-    RETURN 'alreadymoderator';
+    SELECT 1
+    FROM moderators m
+    WHERE m.user_id = p_id
+  ) INTO v_is_moderator;
+  IF v_is_moderator THEN
+    v_result.result := 'alreadymoderator';
+    v_result.user_id := p_id;
+    RETURN v_result;
   END IF;
+  -- por fim, inserir.
   INSERT INTO moderators (user_id)
   VALUES (p_id);
-  RETURN 'done';
+  v_result.result := 'done';
+  v_result.user_id := p_id;
+  RETURN v_result;
 END;
 $$;
