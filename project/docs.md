@@ -42,3 +42,31 @@ de 64 bits`), caso contrário é retornado `400 BAD REQUEST`.
 Durante a query/parsing via backend - banco de dados, os erros
 anteriormente mencionados em [`get users`](#get-users---lista-de-usuários)
 também podem ocorrer, retornando os respectivos outputs.
+
+### `POST /users` - Adicionar usuário
+
+Requisição recebe um `body`, faz parsing de `String` para um
+`CreateUserModel`, que pode ser representado pelo seguinte exemplo:
+
+```json
+{
+  "user_name": "Um Nome de Exemplo",
+  "user_mail": "algum.email@exemplo.com",
+}
+```
+
+Qualquer estrura de `body` que não siga o modelo irá fazer com que o
+endpoint retorne `400 BAD REQUEST`.
+
+Antes de fazer envio ao banco de dados, os campos de `user_name` e
+`user_mail` são testados, não de maneira severa, mas apenas se seguem
+as convenções básicas:
+
+- `user_name`:
+  - não deve ser vazio
+  - conter ao menos um caractere alfabético
+- `user_mail`:
+  - possuir estritamente um arroba (`@`)
+
+Caso já exista um usuário com o nome e/ou o e-mail fornecido, a
+operação irá falhar e retornar `500 INTERNAL SERVER ERROR`.
