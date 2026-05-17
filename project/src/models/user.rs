@@ -8,7 +8,7 @@ use time::OffsetDateTime;
 #[derive(Serialize, Deserialize, FromRow, Debug)]
 pub struct User {
     /// Id do usuário.
-    id: i32,
+    id: i64,
     /// Nome do usuário.
     user_name: String,
     /// E-mail do usuário.
