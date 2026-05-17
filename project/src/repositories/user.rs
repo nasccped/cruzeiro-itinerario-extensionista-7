@@ -2,10 +2,11 @@ use super::error::RepositoryError;
 use crate::models::user::CreateUserModel;
 use sqlx::{PgPool, postgres::PgRow};
 
-const SELECT_FROM_USERS_QUERY: &str = include_str!("../../db-templates/select-from-users.sql");
+const SELECT_FROM_USERS_QUERY: &str =
+    include_str!("../../db-templates/callables/select-from-users.sql");
 const SELECT_FROM_USERS_BY_ID_QUERY: &str =
-    include_str!("../../db-templates/select-from-users-by-id.sql");
-const INSERT_USER_QUERY: &str = include_str!("../../db-templates/insert-user.sql");
+    include_str!("../../db-templates/callables/select-from-users-by-id.sql");
+const INSERT_USER_QUERY: &str = include_str!("../../db-templates/callables/insert-user.sql");
 
 /// Repositório para as operações relacionadas com [`Users`].
 pub struct UserRepository {
