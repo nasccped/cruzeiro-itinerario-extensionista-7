@@ -12,61 +12,84 @@ funcionamento eficiente e adequado do projeto.
 ### `GET /` - Home
 
 Requisição no endpoint raíz do projeto. Nenhum processamento,
-ou alteração é feita, apenas retornado `200 OK` com um texto contento
-os endpoints disponíveis (sem métodos http).
+ou alteração é feita, apenas retornado status de sucesso exibindo os
+endpoints disponíveis (sem métodos http).
 
 ### `GET /users` - Lista de usuários
 
-Requisição acessa a `connection pool` do `Postgresql`, retornando
-`200 OK` onde o `body` é um json contendo um array de usuários (vazio
-ou não) responsável por armazenar todos os usuários encontrados no
-banco de dados.
-
-A requisição ainda assim pode falhar, retornando `500 INTERNAL SERVER
-ERROR` caso a falha seja durante a query no banco de dados, ou `422
-UNPROCESSABLE ENTITY` caso a falha ocorra durante o `parsing` de
-de `PgRow` para `User::json`.
-
-### `GET /users/{userId}` - Usuário por id
-
-Requisição acessa a `connection pool` do `Postgresql`, retornando
-`200 OK` onde o `body` é um json contendo todos os campos da entidade
-usuário.
-
-Caso o usuário não exista (`não encontrado usuário com id ...`), é
-retornado `404 NOT FOUND` com uma mensagem apropriada.
-
-Espera-se que `{userId}` seja uma chave primária numérica (`integer
-de 64 bits`), caso contrário é retornado `400 BAD REQUEST`.
-
-Durante a query/parsing via backend - banco de dados, os erros
-anteriormente mencionados em [`get users`](#get-users---lista-de-usuários)
-também podem ocorrer, retornando os respectivos outputs.
-
-### `POST /users` - Adicionar usuário
-
-Requisição recebe um `body`, faz parsing de `String` para um
-`CreateUserModel`, que pode ser representado pelo seguinte exemplo:
-
+Acessa a _connection pool_ do postgres e retorna a lista de usuários
+em um corpo json:
 ```json
 {
-  "user_name": "Um Nome de Exemplo",
-  "user_mail": "algum.email@exemplo.com",
+  "users": [
+    {
+      "id": 1,
+      "user_name": "Walter White",
+      "user_mail": "contact@goodman.accessory.com",
+      "latest_change": null,
+      "current_status": "suspended"
+    }
+    // outros...
+  ]
 }
 ```
 
-Qualquer estrura de `body` que não siga o modelo irá fazer com que o
-endpoint retorne `400 BAD REQUEST`.
+O _array_ de usuários pode ou não estar vazio (ainda significando
+status `200`).
 
-Antes de fazer envio ao banco de dados, os campos de `user_name` e
-`user_mail` são testados, não de maneira severa, mas apenas se seguem
-as convenções básicas:
+Ainda pode ser retornado status `INTERNAL SERVER ERROR` ou
+`UNPROCESSABLE ENTITY` caso ocorra um erro na execução da query ou
+na (de)serialização dos dados, respectivamente.
 
-- `user_name`:
-  - não deve ser vazio
-  - conter ao menos um caractere alfabético
-- `user_mail`:
-  - possuir estritamente um arroba (`@`)
+> [!NOTE]
+>
+> Todas as requests que executam alguma query no banco de dados estão
+> sujeitas ao erro mencionado anteriormente.
+>
+> Não espera-se que aconteçam!
 
-Caso já exista um usuário com o nome e/ou o e-mail fornecido, a
-operação irá falhar e retornar `500 INTERNAL SERVER ERROR`.
+### `GET /users/{userId}` - Usuário por id
+
+Acessa a _connection pool_ do postgres e retorna os campos do usuário
+em um formato json:
+```json
+{
+  "user": {
+    "id": 67,
+    "user_name": "Jessie Pinkman",
+    "user_mail": "heiseberg@industries.com",
+    "latest_change": null,
+    "current_status": "available"
+  }
+}
+```
+
+Caso o usuário de id especificado não exista, é retornado status
+`NOT FOUND`.
+
+Se o id fornecido não for válido (inteiro de `64 bits`), é retornado
+status `BAD REQUEST`.
+
+### `POST /users` - Adicionar usuário
+
+Faz _parsing_ do `body`, converte em um `model` comum, tenta inserir
+na tabela e retorna o resultado obtido.
+
+Espera-se que o body seja um json no seguinte formato:
+```json
+{
+  "user_name": "Um Nome de Exemplo",
+  "user_mail": "exemplo@mail.com",
+}
+```
+
+Caso contrário, é retornado status `BAD REQUEST`. Além disso, é
+necessário que `user_name` seja válido (não vazio/nulo, conter ao
+menos um caractere alfabético) da mesma forma que `user_mail` (padrão
+geral para formatação de endereços e-mail), retornando o mesmo erro
+se negativo.
+
+Vale lembrar que ambos `user_name` e `user_mail` tem _constraints_ de
+`UNIQUE`. Ao tentar inserir um recurso já sendo utilizado por outro
+usuário o status `CONFLICT` ou `INTERNAL SERVER ERROR` pode ser
+retornado.
