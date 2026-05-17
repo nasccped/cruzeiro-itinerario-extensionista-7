@@ -44,6 +44,6 @@ pub struct PostUserOutput;
 impl From<PostUserOutput> for HttpResponse {
     #[allow(unused_variables)]
     fn from(value: PostUserOutput) -> Self {
-        HttpResponse::Ok().body("Usuário adicionado com sucesso!")
+        HttpResponse::Created().body("Usuário adicionado com sucesso!")
     }
 }
