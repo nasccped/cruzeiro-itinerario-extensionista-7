@@ -120,3 +120,25 @@ Acessa a _connection pool_ do postgres e retorna uma lista de
 >
 > O registro verdadeiro contém apenas os campos de `id` e `user_id`,
 > que não são muito úteis para exibição.
+
+## `POST /moderators` - Adicionar moderador
+
+Assim como a requisição [`POST /users`](#post-users---adicionar-usuário),
+é necessário convert o `body` para um `model` comum:
+```json
+{
+  "user_id": 22,
+}
+```
+
+Já que o esperado de todo moderador é que seja um usuário registrado,
+basta passar o campo `user_id` para referenciar o usuário alvo.
+
+Note que algumas operações de validação interferir no resultado
+final:
+- **usuário de id mencionado não existe:** `NOT FOUND`
+- **usuário já é moderador:** `CONFLICT`
+- **usuário tem como status `suspended`:** `CONFLICT` (regra de
+  negócio)
+
+Sem contar outras checagens óbvias como (de)serialização...
