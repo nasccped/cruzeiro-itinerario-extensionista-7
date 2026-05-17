@@ -1,4 +1,4 @@
 pub mod error;
-mod users_repository;
+mod user;
 
-pub use users_repository::UserRepository;
+pub use user::UserRepository;
