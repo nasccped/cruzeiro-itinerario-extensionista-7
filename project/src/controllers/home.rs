@@ -20,6 +20,7 @@ impl HomeController {
         let endpoints: HashSet<&str> = [
             UserController::get_users_endpoint(),
             UserController::get_user_by_id_endpoint(),
+            UserController::post_user_endpoint(),
         ]
         .into();
         response.push_str(
