@@ -1,1 +1,1 @@
-INSERT INTO moderators (user_id) VALUES ($1);
+SELECT insert_into_moderators($1);
