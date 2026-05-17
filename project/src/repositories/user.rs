@@ -29,7 +29,7 @@ impl UserRepository {
     }
 
     /// Retorna um usuário específico da tabela [`crate::models::users::Users`].
-    pub async fn get_user_by_id(&self, id: i64) -> Result<Option<PgRow>, RepositoryError> {
+    pub async fn get_user_by_id(&self, id: i32) -> Result<Option<PgRow>, RepositoryError> {
         sqlx::query(SELECT_FROM_USERS_BY_ID_QUERY)
             .bind(id)
             .fetch_optional(&self.conn)
