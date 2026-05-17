@@ -14,8 +14,7 @@ pub struct User {
     /// Última data de modificação.
     latest_change: Option<GenericDateTime>,
     /// Status do usuário.
-    #[sqlx(rename = "current_status")]
-    status: UserStatus,
+    current_status: UserStatus,
 }
 
 /// Model para criação de um novo usuário no banco de dados (mesmo de [`User`] mas sem
@@ -93,15 +92,14 @@ impl CreateUserModel {
 }
 
 /// Status de usuário.
-#[repr(i32)]
-#[derive(Default, Serialize, Deserialize, Type, Debug)]
-#[sqlx(type_name = "INT4")]
+#[derive(Serialize, Deserialize, Debug, Type)]
+#[sqlx(type_name = "user_status", rename_all = "lowercase")]
+#[serde(rename_all = "lowercase")]
 pub enum UserStatus {
     /// Disponível.
-    #[default]
-    Available = 1,
+    Available,
     /// Suspenso.
-    Suspended = 2,
+    Suspended,
 }
 
 /// Normaliza os campos relacionados ao usuário.
