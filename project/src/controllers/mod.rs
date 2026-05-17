@@ -1,6 +1,6 @@
-mod home_controller;
-mod user_controllers;
-mod utils;
+mod _utils;
+mod home;
+mod user;
 
-pub use home_controller::Home;
-pub use user_controllers::UserControllers;
+pub use home::HomeController;
+pub use user::UserController;

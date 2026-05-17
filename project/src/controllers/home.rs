@@ -1,14 +1,14 @@
-use super::UserControllers;
-use super::utils;
+use super::_utils as utils;
+use super::UserController;
 use actix_web::HttpResponse;
 use std::collections::HashSet;
 
-/// Struct para o endpoint raíz (`/`).
-pub struct Home {}
+/// Controller para o endpoint raíz (`/`).
+pub struct HomeController {}
 
 type HomeResult = Result<HttpResponse, HttpResponse>;
 
-impl Home {
+impl HomeController {
     /// Retorna o endpoint para [`Home::app_home`].
     pub fn get_app_home_endpoint() -> &'static str {
         "/"
@@ -18,8 +18,8 @@ impl Home {
     pub async fn app_home() -> HttpResponse {
         let mut response = "URL inicial. Considere utilizar os demais endpoints:\n\n".to_string();
         let endpoints: HashSet<&str> = [
-            UserControllers::get_users_endpoint(),
-            UserControllers::get_user_by_id_endpoint(),
+            UserController::get_users_endpoint(),
+            UserController::get_user_by_id_endpoint(),
         ]
         .into();
         response.push_str(
