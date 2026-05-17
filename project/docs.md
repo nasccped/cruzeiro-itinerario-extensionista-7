@@ -93,3 +93,30 @@ Vale lembrar que ambos `user_name` e `user_mail` tem _constraints_ de
 `UNIQUE`. Ao tentar inserir um recurso já sendo utilizado por outro
 usuário o status `CONFLICT` ou `INTERNAL SERVER ERROR` pode ser
 retornado.
+
+## `GET /moderators` - Lista de moderadores
+
+Acessa a _connection pool_ do postgres e retorna uma lista de
+`moderators view`:
+```json
+{
+  "moderators": [
+    {
+      "moderator_id": 2,
+      "user_id": 12,
+      "name": "Gus Fring",
+      "mail": "ceo@pollos.com"
+      "since": "2026-05-17T17:49:53Z"
+    },
+    // outros...
+  ]
+}
+```
+
+> [!NOTE]
+>
+> A estrutura retornada refere-se ao `moderator view` e não ao
+> `moderator` verdadeiro.
+>
+> O registro verdadeiro contém apenas os campos de `id` e `user_id`,
+> que não são muito úteis para exibição.
