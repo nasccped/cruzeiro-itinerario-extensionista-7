@@ -37,7 +37,6 @@ FROM moderators m
 JOIN users u
 ON m.user_id = u.id;
 
--- tipo para quando 'INSERT_INTO_MODERATORS' é chamado.
 CREATE TYPE MODERATOR_INSERTION_VARIANT AS ENUM (
   'done',
   'issuspended',
@@ -45,6 +44,7 @@ CREATE TYPE MODERATOR_INSERTION_VARIANT AS ENUM (
   'alreadymoderator'
 );
 
+-- tipo para quando 'INSERT_INTO_MODERATORS' é chamado.
 CREATE TYPE MODERATOR_INSERTION_RESULT AS (
   result  MODERATOR_INSERTION_VARIANT,
   user_id INT
@@ -95,6 +95,40 @@ BEGIN
   VALUES (p_id);
   v_result.result := 'done';
   v_result.user_id := p_id;
+  RETURN v_result;
+END;
+$$;
+
+CREATE TYPE MODERATOR_DELETION_VARIANT AS ENUM (
+  'done',
+  'notfound',
+  'notamoderator'
+);
+
+-- tipo para quando 'INSERT_INTO_MODERATORS' é chamado.
+CREATE TYPE MODERATOR_DELETION_RESULT AS (
+  result  MODERATOR_DELETION_VARIANT,
+  user_id INT
+);
+
+-- função que realiza checagens para manter integridade antes de remover da tabela.
+CREATE FUNCTION delete_from_moderators(IN p_id INTEGER) RETURNS MODERATOR_DELETION_RESULT
+LANGUAGE plpgsql
+AS $$
+DECLARE
+  v_result MODERATOR_DELETION_RESULT;
+BEGIN
+  v_result.user_id := p_id;
+  IF NOT EXISTS (SELECT 1 FROM users u WHERE u.id = p_id) THEN
+    v_result.result := 'notfound';
+    RETURN v_result;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM moderators m WHERE m.user_id = p_id) THEN
+    v_result.result := 'notamoderator';
+    RETURN v_result;
+  END IF;
+  DELETE FROM moderators m WHERE m.user_id = p_id;
+  v_result.result := 'done';
   RETURN v_result;
 END;
 $$;
