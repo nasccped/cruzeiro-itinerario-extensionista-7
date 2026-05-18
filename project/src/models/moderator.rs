@@ -56,6 +56,41 @@ pub enum ModeratorInsertionVariant {
 impl ModeratorInsertionVariant {
     /// Se a variante expressa sucesso.
     fn is_ok(&self) -> bool {
-        *self == ModeratorInsertionVariant::Done
+        *self == Self::Done
+    }
+}
+
+// ------------------------------------------
+/// Tabela retornada para a chamada sql da função `DELETE_FROM_MODERATORS`.
+#[derive(Debug, FromRow)]
+pub struct ModeratorDeletionReturnType {
+    /// Qual variante foi retornada.
+    pub result: ModeratorDeletionVariant,
+    /// Id do usuário na tentativa da operação.
+    pub user_id: i32,
+}
+
+impl ModeratorDeletionReturnType {
+    /// Se a operação teve sucesso.
+    pub fn is_ok(&self) -> bool {
+        self.result.is_ok()
+    }
+}
+
+#[derive(Type, Debug, PartialEq)]
+#[sqlx(type_name = "moderator_deletion_variant", rename_all = "lowercase")]
+pub enum ModeratorDeletionVariant {
+    /// Não existe usuário com o id especificado.
+    NotFound,
+    /// Usuário existe mas não é um moderador.
+    NotAModerator,
+    /// Operação feita com sucesso.
+    Done,
+}
+
+impl ModeratorDeletionVariant {
+    /// Se a variante expressa sucesso.
+    fn is_ok(&self) -> bool {
+        *self == Self::Done
     }
 }

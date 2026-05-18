@@ -85,6 +85,10 @@ pub fn create_app(
             ModeratorController::post_moderator_endpoint(),
             web::post().to(ModeratorController::post_moderator),
         ),
+        (
+            ModeratorController::delete_moderator_endpoint(),
+            web::delete().to(ModeratorController::delete_moderator),
+        ),
     ];
     for (endpoint, route) in endpoints_and_routes {
         app = app.route(endpoint, route);
