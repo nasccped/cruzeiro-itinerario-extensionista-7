@@ -8,18 +8,23 @@ const USERS_AND_USER_ID_ENDPOINT: &str = "/users/{userId}";
 pub struct UserController {}
 
 impl UserController {
-    /// Retorna o endpoint para [`UserControllers::get_users`].
+    /// Retorna o endpoint para [`UserController::get_users`].
     pub fn get_users_endpoint() -> &'static str {
         USERS_ENDPOINT
     }
 
-    /// Retorna o endpoint para [`UserControllers::get_user_by_id`].
+    /// Retorna o endpoint para [`UserController::get_user_by_id`].
     pub fn get_user_by_id_endpoint() -> &'static str {
         USERS_AND_USER_ID_ENDPOINT
     }
 
-    /// Retorna o endpoint para [`UserControllers::post_user`].
+    /// Retorna o endpoint para [`UserController::post_user`].
     pub fn post_user_endpoint() -> &'static str {
+        USERS_ENDPOINT
+    }
+
+    /// Retorna o endpoint para [`UserController::patch_user`].
+    pub fn patch_user_endpoint() -> &'static str {
         USERS_ENDPOINT
     }
 
@@ -42,5 +47,15 @@ impl UserController {
     /// Adiciona um novo usuário ao banco de dados.
     pub async fn post_user(usecase: web::Data<UserUsecase>, body: String) -> HttpResponse {
         utils::log_and_normalize(usecase.post_user(body).await, Self::post_user_endpoint())
+    }
+
+    /// Atualiza os dados de um usuário.
+    pub async fn patch_user(_usecase: web::Data<UserUsecase>, _body: String) -> HttpResponse {
+        utils::log_and_normalize(
+            Result::<HttpResponse, HttpResponse>::Err(
+                HttpResponse::NotImplemented().body("Funcionalidade ainda não implementada!"),
+            ),
+            Self::patch_user_endpoint(),
+        )
     }
 }
