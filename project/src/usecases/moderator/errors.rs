@@ -1,7 +1,10 @@
 use crate::{
     models::{
         error::ModelParseError,
-        moderator::{ModeratorInsertionReturnType, ModeratorInsertionVariant, ModeratorView},
+        moderator::{
+            ModeratorDeletionReturnType, ModeratorDeletionVariant, ModeratorInsertionReturnType,
+            ModeratorInsertionVariant, ModeratorView,
+        },
     },
     repositories::error::RepositoryError,
 };
@@ -9,7 +12,7 @@ use actix_web::HttpResponse;
 use sqlx::postgres::PgRow;
 
 /// Possíveis erros para [`super::ModeratorUsecase::get_moderators`].
-pub struct GetModeratorsError(CommonModeratorsError);
+pub struct GetModeratorsError(CommonModeratorsError<ModeratorView>);
 
 impl From<RepositoryError> for GetModeratorsError {
     fn from(value: RepositoryError) -> Self {
@@ -31,15 +34,17 @@ impl From<GetModeratorsError> for HttpResponse {
 }
 
 /// Erros comuns para operações com moderadores.
-enum CommonModeratorsError {
+#[derive(thiserror::Error, Debug)]
+#[error(transparent)]
+pub enum CommonModeratorsError<T: std::fmt::Debug + 'static> {
     /// Falha em parsear o model.
-    ModelParse(ModelParseError<ModeratorView, PgRow>),
+    ModelParse(ModelParseError<T, PgRow>),
     /// Erro no banco de dados.
     Repository(RepositoryError),
 }
 
-impl From<CommonModeratorsError> for HttpResponse {
-    fn from(value: CommonModeratorsError) -> Self {
+impl<T: std::fmt::Debug> From<CommonModeratorsError<T>> for HttpResponse {
+    fn from(value: CommonModeratorsError<T>) -> Self {
         match value {
             CommonModeratorsError::ModelParse(err) => err.into(),
             CommonModeratorsError::Repository(err) => err.into(),
@@ -65,12 +70,9 @@ pub enum PostModeratorError {
     /// O usuário de id especificado está suspenso.
     #[error("O usuário de id `{}` está suspenso (não pode ser moderador)!", .0)]
     IsSuspended(i32),
-    /// Quando o erro ocorre no banco de dados.
+    /// Erros comuns para operações com moderadores.
     #[error(transparent)]
-    Repository(RepositoryError),
-    /// Quando o erro ocorre durante o parsing do modelo.
-    #[error(transparent)]
-    ModelParse(ModelParseError<ModeratorInsertionReturnType, PgRow>),
+    Common(CommonModeratorsError<ModeratorInsertionReturnType>),
     /// Quando o usuário é adicionado mas por algum motivo é chamada a camada de erro.
     #[error("O usuário `{}` foi adicionado com sucesso. Isso não deveria ser um erro :^(", .0)]
     Unexpected(i32),
@@ -87,8 +89,7 @@ impl From<PostModeratorError> for HttpResponse {
             PostModeratorError::AlreadyModerator(_) | PostModeratorError::IsSuspended(_) => {
                 HttpResponse::Conflict().body(s)
             }
-            PostModeratorError::Repository(err) => err.into(),
-            PostModeratorError::ModelParse(err) => err.into(),
+            PostModeratorError::Common(err) => err.into(),
             PostModeratorError::Unexpected(_) => HttpResponse::InternalServerError().body(s),
         }
     }
@@ -96,13 +97,13 @@ impl From<PostModeratorError> for HttpResponse {
 
 impl From<RepositoryError> for PostModeratorError {
     fn from(value: RepositoryError) -> Self {
-        Self::Repository(value)
+        Self::Common(CommonModeratorsError::Repository(value))
     }
 }
 
 impl From<ModelParseError<ModeratorInsertionReturnType, PgRow>> for PostModeratorError {
     fn from(value: ModelParseError<ModeratorInsertionReturnType, PgRow>) -> Self {
-        Self::ModelParse(value)
+        Self::Common(CommonModeratorsError::ModelParse(value))
     }
 }
 
@@ -114,6 +115,60 @@ impl From<ModeratorInsertionReturnType> for PostModeratorError {
             ModeratorInsertionVariant::IsSuspended => Self::IsSuspended(id),
             ModeratorInsertionVariant::AlreadyModerator => Self::AlreadyModerator(id),
             ModeratorInsertionVariant::Done => Self::Unexpected(id),
+        }
+    }
+}
+
+/// Possíveis erros para [`super::ModeratorUsecase::delete_moderator`].
+#[derive(thiserror::Error, Debug)]
+pub enum DeleteModeratorError {
+    #[error("O user id fornecido (`{}`) não é reconhecido como válido!", .0)]
+    InvalidId(String),
+    /// Erro comum.
+    #[error(transparent)]
+    Common(CommonModeratorsError<ModeratorDeletionReturnType>),
+    /// Usuário de id especificado não existe.
+    #[error("O usuário de id `{}` não foi encontrado!", .0)]
+    NotFound(i32),
+    /// Usuário de id especificado existe, mas não é moderador.
+    #[error("O usuário de id `{}` existe, mas não é um moderador!", .0)]
+    NotAModerator(i32),
+    #[error("O usuário `{}` foi remove com sucesso. Isso não deveria ser um erro :^(", .0)]
+    Unexpected(i32),
+}
+
+impl From<DeleteModeratorError> for HttpResponse {
+    fn from(value: DeleteModeratorError) -> Self {
+        let s = value.to_string();
+        match value {
+            DeleteModeratorError::InvalidId(_) => Self::BadRequest().body(s),
+            DeleteModeratorError::NotFound(_) => Self::NotFound().body(s),
+            DeleteModeratorError::Common(err) => err.into(),
+            DeleteModeratorError::NotAModerator(_) => Self::Conflict().body(s),
+            DeleteModeratorError::Unexpected(_) => Self::InternalServerError().body(s),
+        }
+    }
+}
+
+impl From<RepositoryError> for DeleteModeratorError {
+    fn from(value: RepositoryError) -> Self {
+        Self::Common(CommonModeratorsError::Repository(value))
+    }
+}
+
+impl From<ModelParseError<ModeratorDeletionReturnType, PgRow>> for DeleteModeratorError {
+    fn from(value: ModelParseError<ModeratorDeletionReturnType, PgRow>) -> Self {
+        Self::Common(CommonModeratorsError::ModelParse(value))
+    }
+}
+
+impl From<ModeratorDeletionReturnType> for DeleteModeratorError {
+    fn from(value: ModeratorDeletionReturnType) -> Self {
+        let id = value.user_id;
+        match value.result {
+            ModeratorDeletionVariant::NotFound => Self::NotFound(id),
+            ModeratorDeletionVariant::NotAModerator => Self::NotAModerator(id),
+            ModeratorDeletionVariant::Done => Self::Unexpected(id),
         }
     }
 }

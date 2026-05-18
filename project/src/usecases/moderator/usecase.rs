@@ -1,11 +1,14 @@
 use super::{
-    errors::{GetModeratorsError, PostModeratorError},
-    outputs::{GetModeratorsOutput, PostModeratorOutput},
+    errors::{DeleteModeratorError, GetModeratorsError, PostModeratorError},
+    outputs::{DeleteModeratorOutput, GetModeratorsOutput, PostModeratorOutput},
 };
 use crate::{
     models::{
         error::ModelParseError,
-        moderator::{ModeratorInsertionReturnType, ModeratorView, PostModeratorBody},
+        moderator::{
+            ModeratorDeletionReturnType, ModeratorInsertionReturnType, ModeratorView,
+            PostModeratorBody,
+        },
     },
     repositories::{ModeratorRepository, error::RepositoryError},
 };
@@ -46,6 +49,22 @@ impl ModeratorUsecase {
         let result = ModeratorInsertionReturnType::from_row(&row)
             .map_err(|e| ModelParseError::from_err_and_input(e, row))?;
         PostModeratorOutput::try_from(result)
+    }
+
+    /// Aciona a conexão do [`PgPool`] e remove o moderador especificado pelo `user_id`.
+    pub async fn delete_moderator(
+        &self,
+        user_id: String,
+    ) -> Result<DeleteModeratorOutput, DeleteModeratorError> {
+        let id = user_id
+            .parse()
+            .map_err(|_| DeleteModeratorError::InvalidId(user_id))?;
+        let result = self.repo.delete_moderator(id).await.map(|row| {
+            ModeratorDeletionReturnType::from_row(&row)
+                .map_err(|e| ModelParseError::from_err_and_input(e, row))
+        })?;
+        let model = result?;
+        DeleteModeratorOutput::try_from(model)
     }
 }
 
