@@ -74,6 +74,10 @@ pub fn create_app(
             web::post().to(UserController::post_user),
         ),
         (
+            UserController::patch_user_endpoint(),
+            web::patch().to(UserController::patch_user),
+        ),
+        (
             ModeratorController::get_moderators_endpoint(),
             web::get().to(ModeratorController::get_moderators),
         ),
