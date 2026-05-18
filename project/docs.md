@@ -142,3 +142,26 @@ final:
   negócio)
 
 Sem contar outras checagens óbvias como (de)serialização...
+
+## `DELETE /moderators/{userId}` - Remove um moderador
+
+Aciona a _connection pool_ e remove o administrador vinculado ao id
+de usuário. Note que o id checado é o do usuário, não o do moderador.
+
+Dessa forma, caso você queira remover 'Paulo Alberto' que é
+representado pela seguinte estrutura:
+```json
+{
+  "moderator_id": 2,
+  "user_id": 5,
+  "name": "Paulo Alberto",
+  // outros campos...
+}
+```
+Deve-se usar a request `DELETE /moderators/5`, e não
+`DELETE /moderators/2`.
+
+É retornado erro caso:
+- `{userId}` fornecido não seja reconhecido como válido
+- não exista um usuário vinculado ao `{userId}` passado
+- o usuário vinculado ao `{userId}` não seja um moderador
