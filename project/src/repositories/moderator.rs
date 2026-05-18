@@ -5,6 +5,8 @@ const SELECT_FROM_MODERATORS_VIEW_QUERY: &str =
     include_str!("../../db-templates/callables/select-from-moderators-view.sql");
 const INSERT_INTO_MODERATORS_QUERY: &str =
     include_str!("../../db-templates/callables/insert-moderator.sql");
+const DELETE_FROM_MODERATORS_QUERY: &str =
+    include_str!("../../db-templates/callables/delete-from-moderators.sql");
 
 /// Repositório para as operações com moderadores.
 pub struct ModeratorRepository {
@@ -34,5 +36,14 @@ impl ModeratorRepository {
             .fetch_one(&self.conn)
             .await
             .map_err(|e| RepositoryError::from_err_and_query(e, INSERT_INTO_MODERATORS_QUERY))
+    }
+
+    /// Tenta remover da tabela de moderadores.
+    pub async fn delete_moderator(&self, id: i32) -> Result<PgRow, RepositoryError> {
+        sqlx::query(DELETE_FROM_MODERATORS_QUERY)
+            .bind(id)
+            .fetch_one(&self.conn)
+            .await
+            .map_err(|e| RepositoryError::from_err_and_query(e, DELETE_FROM_MODERATORS_QUERY))
     }
 }
