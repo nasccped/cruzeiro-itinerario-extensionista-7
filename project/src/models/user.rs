@@ -17,6 +17,17 @@ pub struct User {
     current_status: UserStatus,
 }
 
+/// Status de usuário.
+#[derive(Serialize, Deserialize, Debug, Type)]
+#[sqlx(type_name = "user_status", rename_all = "lowercase")]
+#[serde(rename_all = "lowercase")]
+pub enum UserStatus {
+    /// Disponível.
+    Available,
+    /// Suspenso.
+    Suspended,
+}
+
 /// Model para criação de um novo usuário no banco de dados (mesmo de [`User`] mas sem
 /// [`User::id`], [`User::latest_change`] e [`User::status`]).
 #[derive(Serialize, Debug)]
@@ -89,17 +100,6 @@ impl CreateUserModel {
         }
         parts.next().is_none()
     }
-}
-
-/// Status de usuário.
-#[derive(Serialize, Deserialize, Debug, Type)]
-#[sqlx(type_name = "user_status", rename_all = "lowercase")]
-#[serde(rename_all = "lowercase")]
-pub enum UserStatus {
-    /// Disponível.
-    Available,
-    /// Suspenso.
-    Suspended,
 }
 
 /// Normaliza os campos relacionados ao usuário.
