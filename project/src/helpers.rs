@@ -35,6 +35,16 @@ where
     web::post().to(handler)
 }
 
+/// Alias de função para criar rotas de requisições `delete`.
+fn Delete<F, Args>(handler: F) -> Route
+where
+    F: Handler<Args>,
+    Args: FromRequest + 'static,
+    F::Output: Responder + 'static,
+{
+    web::delete().to(handler)
+}
+
 pub trait FatalPanic<OkType> {
     /// Retorna o valor interno da variante [`Ok`] (ou executa o [`Err`] apropriado).
     fn ok_or_fatal_panic(self) -> OkType;
@@ -176,6 +186,10 @@ impl Helper {
             .route(
                 ModeratorController::post_moderator_endpoint(),
                 Post(ModeratorController::post_moderator),
+            )
+            .route(
+                ModeratorController::delete_moderator_endpoint(),
+                Delete(ModeratorController::delete_moderator),
             );
     }
 }
