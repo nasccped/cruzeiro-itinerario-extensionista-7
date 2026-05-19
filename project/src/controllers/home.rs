@@ -10,7 +10,7 @@ type HomeResult = Result<HttpResponse, HttpResponse>;
 
 impl HomeController {
     /// Retorna o endpoint para [`Home::app_home`].
-    pub fn get_app_home_endpoint() -> &'static str {
+    pub fn app_home_endpoint() -> &'static str {
         "/"
     }
 
@@ -33,7 +33,7 @@ impl HomeController {
         );
         utils::log_and_normalize(
             HomeResult::Ok(HttpResponse::Ok().body(response)),
-            Self::get_app_home_endpoint(),
+            Self::app_home_endpoint(),
         )
     }
 }
