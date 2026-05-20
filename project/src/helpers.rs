@@ -45,6 +45,16 @@ where
     web::delete().to(handler)
 }
 
+/// Alias de função para criar rotas de requisições `patch`.
+fn Patch<F, Args>(handler: F) -> Route
+where
+    F: Handler<Args>,
+    Args: FromRequest + 'static,
+    F::Output: Responder + 'static,
+{
+    web::patch().to(handler)
+}
+
 pub trait FatalPanic<OkType> {
     /// Retorna o valor interno da variante [`Ok`] (ou executa o [`Err`] apropriado).
     fn ok_or_fatal_panic(self) -> OkType;
@@ -173,6 +183,10 @@ impl Helper {
             .route(
                 UserController::post_user_endpoint(),
                 Post(UserController::post_user),
+            )
+            .route(
+                UserController::patch_user_endpoint(),
+                Patch(UserController::patch_user),
             );
     }
 

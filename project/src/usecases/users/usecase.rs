@@ -7,6 +7,7 @@ use crate::{
     repositories::{UserRepository, error::RepositoryError},
     usecases::users::errors::PostUserError,
 };
+use actix_web::HttpResponse;
 use sqlx::{
     FromRow,
     postgres::{PgPool, PgRow},
@@ -70,6 +71,11 @@ impl UserUsecase {
                     .with_name_violation(name)
                     .with_mail_violation(mail)
             })
+    }
+
+    /// Atualiza os dados de um usuário no banco de dados.
+    pub async fn patch_user(&self, _body: String) -> Result<HttpResponse, HttpResponse> {
+        Err(HttpResponse::NotImplemented().body("Funcionalidade ainda não implementada!"))
     }
 }
 

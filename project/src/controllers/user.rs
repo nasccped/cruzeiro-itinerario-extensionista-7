@@ -25,7 +25,7 @@ impl UserController {
 
     /// Retorna o endpoint para [`UserController::patch_user`].
     pub fn patch_user_endpoint() -> &'static str {
-        USERS_ENDPOINT
+        USERS_AND_USER_ID_ENDPOINT
     }
 
     /// Retorna uma lista com todos os usuários.
@@ -50,12 +50,7 @@ impl UserController {
     }
 
     /// Atualiza os dados de um usuário.
-    pub async fn patch_user(_usecase: web::Data<UserUsecase>, _body: String) -> HttpResponse {
-        utils::log_and_normalize(
-            Result::<HttpResponse, HttpResponse>::Err(
-                HttpResponse::NotImplemented().body("Funcionalidade ainda não implementada!"),
-            ),
-            Self::patch_user_endpoint(),
-        )
+    pub async fn patch_user(usecase: web::Data<UserUsecase>, body: String) -> HttpResponse {
+        utils::log_and_normalize(usecase.patch_user(body).await, Self::patch_user_endpoint())
     }
 }
