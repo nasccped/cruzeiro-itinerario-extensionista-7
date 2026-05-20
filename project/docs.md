@@ -70,6 +70,11 @@ Caso o usuário de id especificado não exista, é retornado status
 Se o id fornecido não for válido (inteiro de `64 bits`), é retornado
 status `BAD REQUEST`.
 
+### `PATCH /users/{userId}` - Atualizar usuário
+
+Função para modificar os campos do usuário. Ainda não implementada
+(retorna `501 NOT IMPLEMENTED`).
+
 ### `POST /users` - Adicionar usuário
 
 Faz _parsing_ do `body`, converte em um `model` comum, tenta inserir
