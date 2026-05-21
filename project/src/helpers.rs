@@ -1,7 +1,7 @@
 #![allow(non_snake_case)]
 use crate::{
     Context,
-    controllers::{HomeController, ModeratorController, UserController},
+    controllers::{HomeController, ModeratorController, ReportController, UserController},
 };
 use actix_web::{
     FromRequest, Handler, Responder, Route,
@@ -152,6 +152,7 @@ impl Helper {
         Self::add_home_routes(service);
         Self::add_users_routes(service);
         Self::add_moderators_routes(service);
+        Self::add_reports_routes(service);
     }
 
     /// Adiciona os `AppData` à configuração.
@@ -205,5 +206,13 @@ impl Helper {
                 ModeratorController::delete_moderator_endpoint(),
                 Delete(ModeratorController::delete_moderator),
             );
+    }
+
+    /// Adiciona as rotas de [`ReportController`].
+    fn add_reports_routes(service: &mut ServiceConfig) {
+        service.route(
+            ReportController::get_reports_endpoint(),
+            Get(ReportController::get_reports),
+        );
     }
 }
