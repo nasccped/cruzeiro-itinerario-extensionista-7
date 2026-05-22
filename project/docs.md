@@ -170,3 +170,21 @@ Deve-se usar a request `DELETE /moderators/5`, e não
 - `{userId}` fornecido não seja reconhecido como válido
 - não exista um usuário vinculado ao `{userId}` passado
 - o usuário vinculado ao `{userId}` não seja um moderador
+
+### `GET /reports` - Lista de report views
+
+Acessa a _connection pool_ e retorna um array de report view:
+
+```json
+{
+  "reports": [
+    {
+      "id": 1,
+      "owner": "Im me",
+      "open_at": "2026-05-22T01:42:59Z",
+      "record": 1,
+      "status": "open"
+    },
+  // outros ...
+}
+```
