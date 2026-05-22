@@ -132,3 +132,84 @@ BEGIN
   RETURN v_result;
 END;
 $$;
+
+-- tipo para as regiões do Brasil
+CREATE TYPE REGION AS ENUM ('north', 'northeast', 'midwest', 'southeast', 'south');
+
+-- tabela para os estados do Brasil
+CREATE TABLE states (
+  fu     char(2)     PRIMARY KEY NOT NULL UNIQUE,
+  name   VARCHAR(30) NOT NULL UNIQUE            ,
+  region REGION      NOT NULL
+);
+
+-- tabela para as cidades do Brasil
+CREATE TABLE cities (
+  id    SERIAL      PRIMARY KEY,
+  name  VARCHAR(50) NOT NULL   ,
+  state char(2)     NOT NULL   ,
+
+  CONSTRAINT fk_states_fu
+  FOREIGN KEY (state)
+  REFERENCES states(fu)
+  ON DELETE CASCADE
+);
+
+CREATE TABLE neighborhoods (
+  id   SERIAL      PRIMARY KEY,
+  name VARCHAR(50) NOT NULL   ,
+  city INT         NOT NULL   ,
+
+  CONSTRAINT fk_city_id
+  FOREIGN KEY (city)
+  REFERENCES cities(id)
+  ON DELETE CASCADE
+);
+
+CREATE TABLE locales (
+  id           SERIAL      PRIMARY KEY    ,
+  pac          CHAR(9)     UNIQUE NOT NULL,
+  name         VARCHAR(50) NOT NULL       ,
+  neighborhood INT         NOT NULL       ,
+
+CONSTRAINT fk_neighborhood_id
+  FOREIGN KEY (neighborhood)
+  REFERENCES neighborhoods(id)
+  ON DELETE CASCADE
+);
+
+CREATE TYPE RECORD_STATUS AS ENUM ('open', 'suspended', 'canceled');
+
+CREATE TABLE records (
+  id            SERIAL        PRIMARY KEY            ,
+  open_at       TIMESTAMPTZ   NOT NULL DEFAULT NOW() ,
+  record_status RECORD_STATUS NOT NULL DEFAULT 'open',
+  locale        INT           NOT NULL               ,
+
+  CONSTRAINT fk_locales_id
+    FOREIGN KEY (locale)
+    REFERENCES locales(id)
+    ON DELETE CASCADE
+);
+
+-- tipos para os status de report
+CREATE TYPE REPORT_STATUS AS ENUM ('open', 'suspended', 'canceled');
+
+-- tabela de reports
+CREATE TABLE reports (
+  id            SERIAL        PRIMARY KEY            ,
+  user_owner    INT           NOT NULL               ,
+  open_at       TIMESTAMPTZ   NOT NULL DEFAULT NOW() ,
+  report_status REPORT_STATUS NOT NULL DEFAULT 'open',
+  record        INT           NOT NULL               ,
+
+  CONSTRAINT fk_users_user_id
+  FOREIGN KEY (user_owner)
+  REFERENCES users(id)
+  ON DELETE CASCADE,
+
+  CONSTRAINT fk_records_record_id
+  FOREIGN KEY (record)
+  REFERENCES records(id)
+  ON DELETE CASCADE
+);
