@@ -159,7 +159,8 @@ impl Helper {
     fn add_app_data(service: &mut ServiceConfig, gctx: &Context) {
         service
             .app_data(gctx.user_usecase.clone())
-            .app_data(gctx.moderator_usecase.clone());
+            .app_data(gctx.moderator_usecase.clone())
+            .app_data(gctx.reports_usecase.clone());
     }
 
     /// Adiciona as rotas de [`HomeController`].

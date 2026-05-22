@@ -1,6 +1,6 @@
 use crate::{
     helpers::{FatalPanic, Helper, HelperPanicable},
-    usecases::{moderator::ModeratorUsecase, users::UserUsecase},
+    usecases::{moderator::ModeratorUsecase, reports::ReportsUsecase, users::UserUsecase},
 };
 use actix_web::web;
 use sqlx::{PgPool, postgres::PgPoolOptions};
@@ -24,6 +24,8 @@ pub struct Context {
     pub user_usecase: web::Data<UserUsecase>,
     /// Casos de uso para as operações com os moderadores.
     pub moderator_usecase: web::Data<ModeratorUsecase>,
+    /// Casos de uso para as operações com os reports.
+    pub reports_usecase: web::Data<ReportsUsecase>,
 }
 
 impl Context {
@@ -31,13 +33,15 @@ impl Context {
         let server_url = get_env_var(SERVER_URL);
         let server_port = parse_env_var(SERVER_PORT);
         let conn = Connection::new().into_pool().await;
-        let user_usecase = web::Data::new(UserUsecase::new(conn.clone()));
-        let moderator_usecase = web::Data::new(ModeratorUsecase::new(conn));
+        let user_usecase = new_data(UserUsecase::new(conn.clone()));
+        let moderator_usecase = new_data(ModeratorUsecase::new(conn.clone()));
+        let reports_usecase = new_data(ReportsUsecase::new(conn));
         Arc::new(Self {
             server_url,
             server_port,
             user_usecase,
             moderator_usecase,
+            reports_usecase,
         })
     }
 }
@@ -98,4 +102,9 @@ fn get_env_var(var_name: &str) -> String {
 fn parse_env_var<T: 'static + std::fmt::Debug + std::str::FromStr>(var_name: &str) -> T {
     Helper::parse_env_var(var_name, Helper::get_env_var(var_name).ok_or_fatal_panic())
         .ok_or_fatal_panic()
+}
+
+/// Cria uma nova [`web::Data`].
+fn new_data<T>(data: T) -> web::Data<T> {
+    web::Data::new(data)
 }
