@@ -43,12 +43,24 @@ do ambiente:
    POSTGRES_PORT=     ...
    POSTGRES_DATABASE= ...
    ```
-3. execução: considerando que tenha seguido lista de
-   [requisitos](#requisitos), você pode-rá executar o projeto usando
-   um único comando do `package manager` do rust:
-   ```sh
-   cargo run
-   ```
+
+## Executando
+
+Considerando que tenha seguido lista de [requisitos](#requisitos),
+você pode-rá executar o projeto usando um único comando do
+`package manager` do rust:
+```sh
+cargo run
+```
+Após a execução, é esperado visualizar a seguinte mensagem no
+terminal:
+```txt
+[<TIMEZONE> INFO  project] Servidor rodando em `<SERVER_URL>:<SERVER_PORT>`
+```
+
+Com isso, a aplicação fica disponível para uso. Basta acessar os
+endpoints por meio de algum navegador ou aplicativo (sugerido:
+[postman](https://www.postman.com/)).
 
 ## Outros
 
