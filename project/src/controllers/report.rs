@@ -1,5 +1,6 @@
 use super::_utils as utils;
-use actix_web::HttpResponse;
+use crate::usecases::reports::ReportsUsecase;
+use actix_web::{HttpResponse, web};
 
 const REPORTS_ENDPOINT: &str = "/reports";
 
@@ -12,9 +13,8 @@ impl ReportController {
         REPORTS_ENDPOINT
     }
 
-    pub async fn get_reports() -> HttpResponse {
-        let err: Result<HttpResponse, HttpResponse> =
-            Err(HttpResponse::NotImplemented().body("Operação ainda não implementada"));
-        utils::log_and_normalize(err, Self::get_reports_endpoint())
+    /// Retorna um json content os `report_view`s.
+    pub async fn get_reports(usecase: web::Data<ReportsUsecase>) -> HttpResponse {
+        utils::log_and_normalize(usecase.get_reports().await, Self::get_reports_endpoint())
     }
 }
