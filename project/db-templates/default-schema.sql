@@ -213,3 +213,16 @@ CREATE TABLE reports (
   REFERENCES records(id)
   ON DELETE CASCADE
 );
+
+CREATE VIEW report_view AS SELECT
+  rp.id            AS "id"       ,
+  us.user_name     AS "owner"    ,
+  rp.open_at       AS "timestamp",
+  rc.id            AS "record"   ,
+  rp.report_status AS "status"
+FROM reports rp
+JOIN users us
+  ON us.id = rp.user_owner
+JOIN records rc
+  ON rc.id = rp.record
+;
