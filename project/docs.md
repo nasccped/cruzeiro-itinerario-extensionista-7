@@ -99,7 +99,7 @@ Vale lembrar que ambos `user_name` e `user_mail` tem _constraints_ de
 usuário o status `CONFLICT` ou `INTERNAL SERVER ERROR` pode ser
 retornado.
 
-## `GET /moderators` - Lista de moderadores
+### `GET /moderators` - Lista de moderadores
 
 Acessa a _connection pool_ do postgres e retorna uma lista de
 `moderators view`:
@@ -126,7 +126,7 @@ Acessa a _connection pool_ do postgres e retorna uma lista de
 > O registro verdadeiro contém apenas os campos de `id` e `user_id`,
 > que não são muito úteis para exibição.
 
-## `POST /moderators` - Adicionar moderador
+### `POST /moderators` - Adicionar moderador
 
 Assim como a requisição [`POST /users`](#post-users---adicionar-usuário),
 é necessário convert o `body` para um `model` comum:
@@ -148,7 +148,7 @@ final:
 
 Sem contar outras checagens óbvias como (de)serialização...
 
-## `DELETE /moderators/{userId}` - Remove um moderador
+### `DELETE /moderators/{userId}` - Remove um moderador
 
 Aciona a _connection pool_ e remove o administrador vinculado ao id
 de usuário. Note que o id checado é o do usuário, não o do moderador.
