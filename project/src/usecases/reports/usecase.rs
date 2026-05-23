@@ -1,8 +1,10 @@
 use super::{errors::GetReportsError, outputs::GetReportsOutput};
 use crate::{
     models::{error::ModelParseError, report::ReportView},
+    not_implemented,
     repositories::ReportRepository,
 };
+use actix_web::HttpResponse;
 use sqlx::{FromRow, PgPool};
 
 /// Casos de uso para os reports.
@@ -26,5 +28,10 @@ impl ReportsUsecase {
             views.push(model)
         }
         Ok(GetReportsOutput::from(views))
+    }
+
+    /// Public um novo report no banco de dados.
+    pub async fn post_report(&self) -> Result<HttpResponse, HttpResponse> {
+        not_implemented!()
     }
 }

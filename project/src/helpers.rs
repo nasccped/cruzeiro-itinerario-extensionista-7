@@ -218,7 +218,7 @@ impl Helper {
         service.route(
             ReportController::get_reports_endpoint(),
             Get(ReportController::get_reports),
-        );
+        ).route(ReportController::post_report_endpoint(), Post(ReportController::post_report));
     }
 
     /// Adiciona as rotas de [`RecordController`].
