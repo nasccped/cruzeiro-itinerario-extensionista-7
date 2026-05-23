@@ -186,5 +186,6 @@ Acessa a _connection pool_ e retorna um array de report view:
       "status": "open"
     },
   // outros ...
+  ]
 }
 ```
