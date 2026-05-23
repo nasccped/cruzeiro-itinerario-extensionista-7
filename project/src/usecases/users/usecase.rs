@@ -4,6 +4,7 @@ use crate::{
         error::ModelParseError,
         user::{CreateUserModel, User},
     },
+    not_implemented,
     repositories::{UserRepository, error::RepositoryError},
     usecases::users::errors::PostUserError,
 };
@@ -74,8 +75,8 @@ impl UserUsecase {
     }
 
     /// Atualiza os dados de um usuário no banco de dados.
-    pub async fn patch_user(&self, _body: String) -> Result<HttpResponse, HttpResponse> {
-        Err(HttpResponse::NotImplemented().body("Funcionalidade ainda não implementada!"))
+    pub async fn patch_user(&self) -> Result<HttpResponse, HttpResponse> {
+        not_implemented!()
     }
 }
 

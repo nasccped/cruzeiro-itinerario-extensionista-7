@@ -50,7 +50,7 @@ impl UserController {
     }
 
     /// Atualiza os dados de um usuário.
-    pub async fn patch_user(usecase: web::Data<UserUsecase>, body: String) -> HttpResponse {
-        utils::log_and_normalize(usecase.patch_user(body).await, Self::patch_user_endpoint())
+    pub async fn patch_user(usecase: web::Data<UserUsecase>) -> HttpResponse {
+        utils::log_and_normalize(usecase.patch_user().await, Self::patch_user_endpoint())
     }
 }
