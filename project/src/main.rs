@@ -1,5 +1,6 @@
 mod context;
 mod controllers;
+mod global_not_implemented;
 mod helpers;
 mod models;
 mod repositories;
