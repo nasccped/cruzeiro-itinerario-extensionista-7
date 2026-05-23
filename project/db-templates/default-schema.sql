@@ -226,3 +226,29 @@ JOIN users us
 JOIN records rc
   ON rc.id = rp.record
 ;
+
+CREATE VIEW record_view AS SELECT
+  rc.id AS "id",
+  rc.record_status AS "status",
+  lc.pac AS "pac",
+  lc.name AS "street_name",
+  nh.name AS "neighborhood",
+  CONCAT(ct.name, ' (', st.fu, ')') AS "locale",
+  COUNT(rp.id) FILTER (WHERE rp.report_status = 'open') AS "open_reports",
+  COUNT(rp.id) FILTER (WHERE rp.report_status = 'canceled') AS "canceled_reports",
+  COUNT(rp.id) FILTER (WHERE rp.report_status = 'suspended') AS "suspended_reports"
+FROM records rc
+JOIN locales lc ON lc.id = rc.locale
+JOIN neighborhoods nh ON nh.id = lc.neighborhood
+JOIN cities ct ON nh.city = ct.id
+JOIN states st ON st.fu = ct.state
+LEFT JOIN reports rp ON rp.record = rc.id
+
+GROUP BY
+  rc.id,
+  lc.pac,
+  lc.name,
+  nh.name,
+  ct.name,
+  st.fu
+;
