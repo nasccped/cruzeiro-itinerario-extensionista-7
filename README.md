@@ -61,6 +61,32 @@ Referência(s) utilizadas para argumentar as motivações:
 > descarte. \[...\]" por Helton Rodrigues Oliveira _(discente do
 > curso de Geografia da UFMA)_.
 
-Este texto em questão refere-se a página inicial do repositório. Mais
-informações podem ser obtidas das páginas contidas em
-[docs](./docs/README.md).
+## Pesquisa de campo
+
+Muitas das informações obtidas para o desenvolvimento do projeto
+foram retiradas de sites, livros, documentações e textos
+jornalísticos no geral. Entretanto, uma pesquisa de campo foi feita
+com os moradores locais para avaliar o pensamento da comunidade sobre
+a atual situação:
+
+> **Sandra Passos, 49 anos (Jd. Liderança - São Paulo):**
+>
+> Desde que eu cheguei aqui _(natural de Piauí)_, as ruas não eram
+> muito limpas. Ainda assim, um lugar ou outro dava pra frequentar.
+> Agora parece que a geração atual não se importa com as condições
+> do lugar que frequenta...
+
+> **Fernando Cícero, 51 anos (Cohab 2 - São Paulo):**
+>
+> Eu acho que muita gente fica doente por conta de rato, mosquito,
+> _'essas coisas'_. Mesmo que a minha casa seja _'limpinha'_, por
+> trabalhar longe, a gente acaba trazendo doença e _'essas coisas'_
+> pra perto de quem a gente convive. Acho que muita gente fica doente
+> por causa disso. Hoje, não tem como você ir _'num'_ UPA, _'numa'_
+> UBS sem perder pelo menos cinco horas do seu dia.
+
+> [!NOTE]
+>
+> Este texto em questão refere-se a página inicial do repositório.
+> Mais informações podem ser obtidas das páginas contidas em
+> [docs](./docs/README.md).
