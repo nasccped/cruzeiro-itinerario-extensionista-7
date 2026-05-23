@@ -178,7 +178,7 @@ CONSTRAINT fk_neighborhood_id
   ON DELETE CASCADE
 );
 
-CREATE TYPE RECORD_STATUS AS ENUM ('open', 'suspended', 'canceled');
+CREATE TYPE RECORD_STATUS AS ENUM ('open', 'suspended', 'canceled', 'closed');
 
 CREATE TABLE records (
   id            SERIAL        PRIMARY KEY            ,
