@@ -189,3 +189,26 @@ Acessa a _connection pool_ e retorna um array de report view:
   ]
 }
 ```
+
+### `GET /records` - Lista de record views
+
+Acessa a _connection pool_ e retorna um array de record view:
+
+```json
+{
+  "records": [
+    {
+      "id": 1,
+      "status": "Open",
+      "pac": "01001-000",
+      "street_name": "Pra‡a da S‚",
+      "neighborhood": "S‚",
+      "locale": "SÆo Paulo (SP)",
+      "open_reports": 2,
+      "canceled_reports": 0,
+      "suspended_reports": 0
+    },
+  ]
+  // outros ...
+}
+```
