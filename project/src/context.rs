@@ -1,6 +1,9 @@
 use crate::{
     helpers::{FatalPanic, Helper, HelperPanicable},
-    usecases::{moderator::ModeratorUsecase, reports::ReportsUsecase, users::UserUsecase},
+    usecases::{
+        moderator::ModeratorUsecase, records::RecordUsecase, reports::ReportsUsecase,
+        users::UserUsecase,
+    },
 };
 use actix_web::web;
 use sqlx::{PgPool, postgres::PgPoolOptions};
@@ -26,6 +29,8 @@ pub struct Context {
     pub moderator_usecase: web::Data<ModeratorUsecase>,
     /// Casos de uso para as operações com os reports.
     pub reports_usecase: web::Data<ReportsUsecase>,
+    /// Casos de uso para as operações com os records.
+    pub records_usecase: web::Data<RecordUsecase>,
 }
 
 impl Context {
@@ -35,13 +40,15 @@ impl Context {
         let conn = Connection::new().into_pool().await;
         let user_usecase = new_data(UserUsecase::new(conn.clone()));
         let moderator_usecase = new_data(ModeratorUsecase::new(conn.clone()));
-        let reports_usecase = new_data(ReportsUsecase::new(conn));
+        let reports_usecase = new_data(ReportsUsecase::new(conn.clone()));
+        let records_usecase = new_data(RecordUsecase::new(conn));
         Arc::new(Self {
             server_url,
             server_port,
             user_usecase,
             moderator_usecase,
             reports_usecase,
+            records_usecase,
         })
     }
 }
