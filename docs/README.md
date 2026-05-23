@@ -2,9 +2,6 @@
 
 Nesse diretório são dispostos os documentos referentes ao projeto,
 suas motivações, pesquisas e coisas afim. Use a seguinte referência:
-- [entity-docs]\: documentos referentes ao desenvolvimento das
-  entidades presentes no sistema (comece por [milestones] para um
-  melhor entendimento)
 - [milestones]\: documentos referentes ao progresso alcançado no
   projeto
 - [text-models]\: modelos de texto usados para agilizar tarefas
