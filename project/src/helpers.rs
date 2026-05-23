@@ -215,10 +215,19 @@ impl Helper {
 
     /// Adiciona as rotas de [`ReportController`].
     fn add_reports_routes(service: &mut ServiceConfig) {
-        service.route(
-            ReportController::get_reports_endpoint(),
-            Get(ReportController::get_reports),
-        ).route(ReportController::post_report_endpoint(), Post(ReportController::post_report));
+        service
+            .route(
+                ReportController::get_reports_endpoint(),
+                Get(ReportController::get_reports),
+            )
+            .route(
+                ReportController::get_report_by_id_endpoint(),
+                Get(ReportController::get_report_by_id),
+            )
+            .route(
+                ReportController::post_report_endpoint(),
+                Post(ReportController::post_report),
+            );
     }
 
     /// Adiciona as rotas de [`RecordController`].
