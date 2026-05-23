@@ -163,7 +163,8 @@ impl Helper {
         service
             .app_data(gctx.user_usecase.clone())
             .app_data(gctx.moderator_usecase.clone())
-            .app_data(gctx.reports_usecase.clone());
+            .app_data(gctx.reports_usecase.clone())
+            .app_data(gctx.records_usecase.clone());
     }
 
     /// Adiciona as rotas de [`HomeController`].
